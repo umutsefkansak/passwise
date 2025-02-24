@@ -1,1 +1,2 @@
 # passwise
+Bu proje, geçiş kontrol sistemlerinin yazılım tabanlı simülasyonunu gerçekleştirirken, aynı zamanda ileride fiziksel donanımların (kart okuyucu, NFC, yüz tanıma cihazları) entegrasyonuna uygun bir yapı sunacaktır. Donanım entegrasyonu için gerekli alt yapıyı sağlayarak gelecekte bu donanımlar ile sorunsuz çalışabilecek şekilde tasarlanacaktır. Proje, kullanıcıların geçişlerini yönetebilmesi ve bu geçişlerin raporlanabilmesi amacıyla kapsamlı bir yönetici arayüzü ve mobil uygulama simülasyonu içermektedir. 
