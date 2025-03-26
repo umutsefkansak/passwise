@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class PasswiseController {
 
-
     @GetMapping("/hello")
     public String hello(){
         return "Hello Passwise";
