@@ -36,11 +36,5 @@ public class Title {
         this.titleName = titleName;
     }
 
-    public List<Personnel> getPersonnels() {
-        return personnels;
-    }
 
-    public void setPersonnels(List<Personnel> personnels) {
-        this.personnels = personnels;
-    }
 }

@@ -1,18 +1,14 @@
 package com.umut.passwise.entities;
 
+
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @Entity
-@Table(name = "departments")
-@Getter
-@Setter
-public class Department {
+@Table(name = "doortypes")
+public class DoorType {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +17,9 @@ public class Department {
     @Column(nullable = false,unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "department")
-    private List<Personnel> personels;
+
+    @OneToMany(mappedBy = "doorType")
+    private List<Door> doors;
 
     public Long getId() {
         return id;
@@ -39,4 +36,6 @@ public class Department {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }
