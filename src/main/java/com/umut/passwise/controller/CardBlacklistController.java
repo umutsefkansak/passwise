@@ -1,6 +1,5 @@
 package com.umut.passwise.controller;
 
-
 import com.umut.passwise.entities.CardBlacklist;
 import com.umut.passwise.service.impl.CardBlacklistService;
 import lombok.AllArgsConstructor;
@@ -14,12 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/blacklist")
 @AllArgsConstructor
-public class BlacklistController {
+public class CardBlacklistController {
 
     @Autowired
     private CardBlacklistService service;
 
-    @GetMapping("/getall")
+    @GetMapping("/all")
     public List<CardBlacklist> getAll(){
         return service.getAll();
     }

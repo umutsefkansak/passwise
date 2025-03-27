@@ -11,9 +11,11 @@ import java.util.List;
 
 
 
+
 @RestController
 @RequestMapping("/api/reasons")
-public class BlacklistReasonController {
+public class CardBlacklistReasonController {
+
 
 
     @Autowired
