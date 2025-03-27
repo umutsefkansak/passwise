@@ -1,8 +1,7 @@
 package com.umut.passwise.controller;
 
-import com.umut.passwise.entities.BlacklistReason;
-import com.umut.passwise.service.impl.BlacklistReasonService;
-import lombok.AllArgsConstructor;
+import com.umut.passwise.entities.CardBlacklistReason;
+import com.umut.passwise.service.impl.CardBlacklistReasonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +17,10 @@ public class BlacklistReasonController {
 
 
     @Autowired
-    private BlacklistReasonService service;
+    private CardBlacklistReasonService service;
 
     @GetMapping("/all")
-    public List<BlacklistReason> getAll(){
+    public List<CardBlacklistReason> getAll(){
         return service.getAll();
     }
 }

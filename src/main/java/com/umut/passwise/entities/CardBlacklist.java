@@ -1,18 +1,14 @@
 package com.umut.passwise.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Entity
-@Table(name = "blacklist")
-public class Blacklist {
+@Table(name = "card_blacklist")
+public class CardBlacklist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +21,7 @@ public class Blacklist {
 
     @ManyToOne
     @JoinColumn(name = "reason_id",referencedColumnName = "id")
-    private BlacklistReason reason;
+    private CardBlacklistReason reason;
 
 
     @CreationTimestamp
@@ -49,11 +45,11 @@ public class Blacklist {
         this.card = card;
     }
 
-    public BlacklistReason getReason() {
+    public CardBlacklistReason getReason() {
         return reason;
     }
 
-    public void setReason(BlacklistReason reason) {
+    public void setReason(CardBlacklistReason reason) {
         this.reason = reason;
     }
 
@@ -64,4 +60,7 @@ public class Blacklist {
     public void setDateAdded(Timestamp dateAdded) {
         this.dateAdded = dateAdded;
     }
+
+
+
 }

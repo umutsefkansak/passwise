@@ -1,17 +1,12 @@
 package com.umut.passwise.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.List;
 
 @Entity
-@Table(name = "blacklist_reasons")
+@Table(name = "card_blacklist_reasons")
 @NoArgsConstructor
-public class BlacklistReason {
-
+public class CardBlacklistReason {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
