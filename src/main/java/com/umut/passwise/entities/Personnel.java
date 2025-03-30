@@ -18,7 +18,6 @@ public class Personnel {
 
     private String surname;
 
-
     private String tcNum;
 
     private String username;
@@ -29,14 +28,24 @@ public class Personnel {
     private Department department;
 
     @ManyToOne
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    private Team team;
+
+    @ManyToOne
     @JoinColumn(name = "title_id", referencedColumnName = "id")
     private Title title;
-
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "card_id", referencedColumnName = "id")
     private Card card;
 
+    @ManyToOne
+    @JoinColumn(name = "created_by_admin_id", referencedColumnName = "id")
+    private Admin createdByAdmin;
+
+    @ManyToOne
+    @JoinColumn(name = "last_modified_by_admin_id", referencedColumnName = "id")
+    private Admin lastModifiedByAdmin;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -45,7 +54,6 @@ public class Personnel {
     @UpdateTimestamp
     @Column
     private Timestamp updatedAt;
-
 
     public Long getId() {
         return id;
@@ -103,6 +111,14 @@ public class Personnel {
         this.department = department;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     public Title getTitle() {
         return title;
     }
@@ -117,6 +133,22 @@ public class Personnel {
 
     public void setCard(Card card) {
         this.card = card;
+    }
+
+    public Admin getCreatedByAdmin() {
+        return createdByAdmin;
+    }
+
+    public void setCreatedByAdmin(Admin createdByAdmin) {
+        this.createdByAdmin = createdByAdmin;
+    }
+
+    public Admin getLastModifiedByAdmin() {
+        return lastModifiedByAdmin;
+    }
+
+    public void setLastModifiedByAdmin(Admin lastModifiedByAdmin) {
+        this.lastModifiedByAdmin = lastModifiedByAdmin;
     }
 
     public Timestamp getCreatedAt() {

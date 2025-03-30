@@ -21,6 +21,14 @@ public class Door {
     @JoinColumn(name = "doortype_id",referencedColumnName = "id")
     private DoorType doorType;
 
+    @ManyToOne
+    @JoinColumn(name = "access_direction_id", referencedColumnName = "id", nullable = false)
+    private AccessDirection accessDirection;
+
+
+    @OneToOne(mappedBy = "door")
+    private QrCode qrCode;
+
 
     public Long getId() {
         return id;
@@ -53,4 +61,6 @@ public class Door {
     public void setDoorType(DoorType doorType) {
         this.doorType = doorType;
     }
+
+
 }
