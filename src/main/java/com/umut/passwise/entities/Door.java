@@ -17,8 +17,13 @@ public class Door {
 
     private String location;
 
+    // Ana kapı olup olmadığını belirten alan
+    @Column(name = "is_main_door", nullable = false)
+    private Boolean isMainDoor = false;
+
+
     @ManyToOne
-    @JoinColumn(name = "doortype_id",referencedColumnName = "id")
+    @JoinColumn(name = "door_type_id",referencedColumnName = "id")
     private DoorType doorType;
 
     @ManyToOne

@@ -21,8 +21,12 @@ public class AuthLog {
     private Personnel personnel;
 
     @ManyToOne
-    @JoinColumn(name = "door_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "door_id", referencedColumnName = "id")
     private Door door;
+
+    @ManyToOne
+    @JoinColumn(name = "permission_group_id", referencedColumnName = "id")
+    private PermissionGroup permissionGroup;
 
     @Column(name = "auth_date", nullable = false)
     @CreationTimestamp
@@ -35,6 +39,9 @@ public class AuthLog {
     @JoinColumn(name = "action_type_id", referencedColumnName = "id")
     private ActionType actionType; // GRANT, REVOKE gibi değerler için
 
+    // Eklenen yeni alan: İşlem bir yetki grubu üzerinden mi yapıldı
+    @Column(name = "is_group_permission")
+    private Boolean isGroupPermission = false;
 
     public Long getId() {
         return id;
@@ -68,6 +75,14 @@ public class AuthLog {
         this.door = door;
     }
 
+    public PermissionGroup getPermissionGroup() {
+        return permissionGroup;
+    }
+
+    public void setPermissionGroup(PermissionGroup permissionGroup) {
+        this.permissionGroup = permissionGroup;
+    }
+
     public Timestamp getAuthDate() {
         return authDate;
     }
@@ -90,5 +105,13 @@ public class AuthLog {
 
     public void setActionType(ActionType actionType) {
         this.actionType = actionType;
+    }
+
+    public Boolean getIsGroupPermission() {
+        return isGroupPermission;
+    }
+
+    public void setIsGroupPermission(Boolean isGroupPermission) {
+        this.isGroupPermission = isGroupPermission;
     }
 }

@@ -5,6 +5,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "personnels")
@@ -24,6 +26,10 @@ public class Personnel {
     private String password;
 
     @ManyToOne
+    @JoinColumn(name = "person_type_id", referencedColumnName = "id")
+    private PersonType personType;
+
+    @ManyToOne
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 
@@ -38,6 +44,13 @@ public class Personnel {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "card_id", referencedColumnName = "id")
     private Card card;
+
+    // Eski many-to-many ilişkileri kaldırıp, yeni one-to-many ilişkilerine geçiş
+    @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL)
+    private Set<PersonnelPermission> doorPermissions;
+
+    @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL)
+    private Set<PersonnelPermissionGroup> permissionGroupMemberships;
 
     @ManyToOne
     @JoinColumn(name = "created_by_admin_id", referencedColumnName = "id")
@@ -165,5 +178,29 @@ public class Personnel {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public PersonType getPersonType() {
+        return personType;
+    }
+
+    public void setPersonType(PersonType personType) {
+        this.personType = personType;
+    }
+
+    public Set<PersonnelPermission> getDoorPermissions() {
+        return doorPermissions;
+    }
+
+    public void setDoorPermissions(Set<PersonnelPermission> doorPermissions) {
+        this.doorPermissions = doorPermissions;
+    }
+
+    public Set<PersonnelPermissionGroup> getPermissionGroupMemberships() {
+        return permissionGroupMemberships;
+    }
+
+    public void setPermissionGroupMemberships(Set<PersonnelPermissionGroup> permissionGroupMemberships) {
+        this.permissionGroupMemberships = permissionGroupMemberships;
     }
 }
