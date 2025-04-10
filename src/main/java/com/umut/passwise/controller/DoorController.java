@@ -2,8 +2,7 @@ package com.umut.passwise.controller;
 
 
 import com.umut.passwise.entities.Door;
-import com.umut.passwise.repository.DoorRepository;
-import com.umut.passwise.service.impl.DoorService;
+import com.umut.passwise.service.impl.DoorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +16,10 @@ public class DoorController {
 
 
     @Autowired
-    private DoorService service;
+    private DoorServiceImpl service;
 
     @GetMapping("/all")
     public List<Door> getAll(){
-        return service.getAll();
+        return service.findAll();
     }
 }

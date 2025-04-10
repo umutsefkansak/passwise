@@ -1,7 +1,7 @@
 package com.umut.passwise.controller;
 
 import com.umut.passwise.entities.CardBlacklist;
-import com.umut.passwise.service.impl.CardBlacklistService;
+import com.umut.passwise.service.impl.CardBlacklistServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +16,11 @@ import java.util.List;
 public class CardBlacklistController {
 
     @Autowired
-    private CardBlacklistService service;
+    private CardBlacklistServiceImpl service;
 
     @GetMapping("/all")
     public List<CardBlacklist> getAll(){
-        return service.getAll();
+        return service.findAll();
     }
 
 }
