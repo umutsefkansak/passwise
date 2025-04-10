@@ -1,4 +1,4 @@
-// Person Type Entity (Personel türleri için)
+// Person Type Entity (Personel türleri için) KADROLU-TAŞERON-MÜŞTERİ-ZİYARETÇİ VS.
 package com.umut.passwise.entities;
 
 import jakarta.persistence.*;

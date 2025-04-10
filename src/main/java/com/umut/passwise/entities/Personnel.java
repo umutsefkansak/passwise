@@ -25,6 +25,12 @@ public class Personnel {
     private String username;
     private String password;
 
+    private boolean isActive = true;
+
+
+    private Timestamp hireDate;
+
+
     @ManyToOne
     @JoinColumn(name = "person_type_id", referencedColumnName = "id")
     private PersonType personType;
@@ -45,12 +51,17 @@ public class Personnel {
     @JoinColumn(name = "card_id", referencedColumnName = "id")
     private Card card;
 
+
+
+
     // Eski many-to-many ilişkileri kaldırıp, yeni one-to-many ilişkilerine geçiş
     @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL)
     private Set<PersonnelPermission> doorPermissions;
 
     @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL)
     private Set<PersonnelPermissionGroup> permissionGroupMemberships;
+
+
 
     @ManyToOne
     @JoinColumn(name = "created_by_admin_id", referencedColumnName = "id")
@@ -202,5 +213,22 @@ public class Personnel {
 
     public void setPermissionGroupMemberships(Set<PersonnelPermissionGroup> permissionGroupMemberships) {
         this.permissionGroupMemberships = permissionGroupMemberships;
+    }
+
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Timestamp getHireDate() {
+        return hireDate;
+    }
+
+    public void setHireDate(Timestamp hireDate) {
+        this.hireDate = hireDate;
     }
 }
