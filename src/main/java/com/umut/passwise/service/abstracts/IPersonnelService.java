@@ -23,4 +23,7 @@ public interface IPersonnelService {
 
     // Fotoğraf yükleme metodu eklendi
     String uploadPhoto(Long id, MultipartFile file) throws IOException;
+
+    // Fotoğraf silme metodu eklendi
+    void deletePhoto(Long id) throws IOException;
 }

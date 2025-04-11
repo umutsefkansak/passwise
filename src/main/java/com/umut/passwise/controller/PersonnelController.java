@@ -4,6 +4,7 @@ import com.umut.passwise.dto.requests.PersonnelRequestDto;
 import com.umut.passwise.dto.responses.PersonnelResponseDto;
 import com.umut.passwise.service.abstracts.IFileStorageService;
 import com.umut.passwise.service.abstracts.IPersonnelService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -144,6 +145,27 @@ public class PersonnelController {
 
         } catch (Exception e) {
             return new ResponseEntity<>("Fotoğraf yüklenemedi: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @DeleteMapping("/{id}/photo")
+    public ResponseEntity<?> deletePhoto(@PathVariable Long id) {
+        try {
+            // Personel var mı kontrol et
+            if (!personnelService.existsById(id)) {
+                return new ResponseEntity<>("Personel bulunamadı.", HttpStatus.NOT_FOUND);
+            }
+
+            // Fotoğrafı sil
+            personnelService.deletePhoto(id);
+
+            return ResponseEntity.ok("Fotoğraf başarıyla silindi.");
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IOException e) {
+            return new ResponseEntity<>("Fotoğraf silinirken bir hata oluştu: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -176,4 +176,29 @@ public class PersonnelServiceImpl implements IPersonnelService {
 
         return photoFileName;
     }
+
+
+    @Override
+    public void deletePhoto(Long id) throws IOException {
+        // Personel var mı kontrol et
+        Optional<Personnel> personnelOptional = personnelRepository.findById(id);
+
+        if (!personnelOptional.isPresent()) {
+            throw new EntityNotFoundException("Personnel with ID " + id + " not found");
+        }
+
+        Personnel personnel = personnelOptional.get();
+
+        // Fotoğraf var mı kontrol et
+        if (personnel.getPhotoFileName() == null || personnel.getPhotoFileName().isEmpty()) {
+            throw new EntityNotFoundException("No photo found for personnel with ID " + id);
+        }
+
+        // Dosya sisteminden fotoğrafı sil
+        fileStorageService.deletePersonnelPhoto(personnel.getPhotoFileName());
+
+        // Veritabanındaki referansı kaldır
+        personnel.setPhotoFileName(null);
+        personnelRepository.save(personnel);
+    }
 }
