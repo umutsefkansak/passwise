@@ -30,6 +30,9 @@ public class Personnel {
 
     private Timestamp hireDate;
 
+    // Fotoğraf için yeni alan
+    private String photoFileName;
+
 
     @ManyToOne
     @JoinColumn(name = "person_type_id", referencedColumnName = "id")
@@ -230,5 +233,13 @@ public class Personnel {
 
     public void setHireDate(Timestamp hireDate) {
         this.hireDate = hireDate;
+    }
+
+    public String getPhotoFileName() {
+        return photoFileName;
+    }
+
+    public void setPhotoFileName(String photoFileName) {
+        this.photoFileName = photoFileName;
     }
 }

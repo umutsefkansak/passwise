@@ -11,6 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PersonnelResponseDto {
+    private Long id; // ID alanı eklendi, controller'da kullanılacak
     private String name;
     private String surname;
     private String tcNum;
@@ -27,6 +28,16 @@ public class PersonnelResponseDto {
     private Admin lastModifiedByAdmin;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    // Yeni fotoğraf dosya adı alanı
+    private String photoFileName;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -154,5 +165,13 @@ public class PersonnelResponseDto {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getPhotoFileName() {
+        return photoFileName;
+    }
+
+    public void setPhotoFileName(String photoFileName) {
+        this.photoFileName = photoFileName;
     }
 }

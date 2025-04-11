@@ -29,6 +29,8 @@ public class PersonnelRequestDto {
     private Admin lastModifiedByAdmin;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    // Yeni fotoğraf dosya adı alanı
+    private String photoFileName;
 
     public String getName() {
         return name;
@@ -172,5 +174,13 @@ public class PersonnelRequestDto {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getPhotoFileName() {
+        return photoFileName;
+    }
+
+    public void setPhotoFileName(String photoFileName) {
+        this.photoFileName = photoFileName;
     }
 }
