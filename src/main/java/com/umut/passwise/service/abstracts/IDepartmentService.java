@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.Department;
+
+import com.umut.passwise.dto.requests.DepartmentRequestDto;
+import com.umut.passwise.dto.responses.DepartmentResponseDto;
 
 public interface IDepartmentService {
 
-    List<Department> findAll();
+    List<DepartmentResponseDto> findAll();
 
-    Optional<Department> findById(Long id);
+    Optional<DepartmentResponseDto> findById(Long id);
 
-    Department save(Department department);
+    DepartmentResponseDto save(DepartmentRequestDto departmentRequestDto);
+
+    DepartmentResponseDto update(Long id, DepartmentRequestDto departmentRequestDto);
 
     void deleteById(Long id);
 

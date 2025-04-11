@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.AccessLog;
+
+import com.umut.passwise.dto.requests.AccessLogRequestDto;
+import com.umut.passwise.dto.responses.AccessLogResponseDto;
 
 public interface IAccessLogService {
 
-    List<AccessLog> findAll();
+    List<AccessLogResponseDto> findAll();
 
-    Optional<AccessLog> findById(Long id);
+    Optional<AccessLogResponseDto> findById(Long id);
 
-    AccessLog save(AccessLog accessLog);
+    AccessLogResponseDto save(AccessLogRequestDto accessLogRequestDto);
+
+    AccessLogResponseDto update(Long id, AccessLogRequestDto accessLogRequestDto);
 
     void deleteById(Long id);
 

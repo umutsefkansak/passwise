@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.CardBlacklistReason;
+
+import com.umut.passwise.dto.requests.CardBlacklistReasonRequestDto;
+import com.umut.passwise.dto.responses.CardBlacklistReasonResponseDto;
 
 public interface ICardBlacklistReasonService {
 
-    List<CardBlacklistReason> findAll();
+    List<CardBlacklistReasonResponseDto> findAll();
 
-    Optional<CardBlacklistReason> findById(Long id);
+    Optional<CardBlacklistReasonResponseDto> findById(Long id);
 
-    CardBlacklistReason save(CardBlacklistReason cardBlacklistReason);
+    CardBlacklistReasonResponseDto save(CardBlacklistReasonRequestDto cardBlacklistReasonRequestDto);
+
+    CardBlacklistReasonResponseDto update(Long id, CardBlacklistReasonRequestDto cardBlacklistReasonRequestDto);
 
     void deleteById(Long id);
 

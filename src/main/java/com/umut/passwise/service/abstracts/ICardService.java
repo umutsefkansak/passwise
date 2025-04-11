@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.Card;
+
+import com.umut.passwise.dto.requests.CardRequestDto;
+import com.umut.passwise.dto.responses.CardResponseDto;
 
 public interface ICardService {
 
-    List<Card> findAll();
+    List<CardResponseDto> findAll();
 
-    Optional<Card> findById(Long id);
+    Optional<CardResponseDto> findById(Long id);
 
-    Card save(Card card);
+    CardResponseDto save(CardRequestDto cardRequestDto);
+
+    CardResponseDto update(Long id, CardRequestDto cardRequestDto);
 
     void deleteById(Long id);
 

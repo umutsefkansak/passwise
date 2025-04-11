@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.AccessDirection;
+
+import com.umut.passwise.dto.requests.AccessDirectionRequestDto;
+import com.umut.passwise.dto.responses.AccessDirectionResponseDto;
 
 public interface IAccessDirectionService {
 
-    List<AccessDirection> findAll();
+    List<AccessDirectionResponseDto> findAll();
 
-    Optional<AccessDirection> findById(Long id);
+    Optional<AccessDirectionResponseDto> findById(Long id);
 
-    AccessDirection save(AccessDirection accessDirection);
+    AccessDirectionResponseDto save(AccessDirectionRequestDto accessDirectionRequestDto);
+
+    AccessDirectionResponseDto update(Long id, AccessDirectionRequestDto accessDirectionRequestDto);
 
     void deleteById(Long id);
 

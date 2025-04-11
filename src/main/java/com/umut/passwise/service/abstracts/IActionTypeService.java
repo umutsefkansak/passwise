@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.ActionType;
+
+import com.umut.passwise.dto.requests.ActionTypeRequestDto;
+import com.umut.passwise.dto.responses.ActionTypeResponseDto;
 
 public interface IActionTypeService {
 
-    List<ActionType> findAll();
+    List<ActionTypeResponseDto> findAll();
 
-    Optional<ActionType> findById(Long id);
+    Optional<ActionTypeResponseDto> findById(Long id);
 
-    ActionType save(ActionType actionType);
+    ActionTypeResponseDto save(ActionTypeRequestDto actionTypeRequestDto);
+
+    ActionTypeResponseDto update(Long id, ActionTypeRequestDto actionTypeRequestDto);
 
     void deleteById(Long id);
 

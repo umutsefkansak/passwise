@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.PermissionGroup;
+
+import com.umut.passwise.dto.requests.PermissionGroupRequestDto;
+import com.umut.passwise.dto.responses.PermissionGroupResponseDto;
 
 public interface IPermissionGroupService {
 
-    List<PermissionGroup> findAll();
+    List<PermissionGroupResponseDto> findAll();
 
-    Optional<PermissionGroup> findById(Long id);
+    Optional<PermissionGroupResponseDto> findById(Long id);
 
-    PermissionGroup save(PermissionGroup permissionGroup);
+    PermissionGroupResponseDto save(PermissionGroupRequestDto permissionGroupRequestDto);
+
+    PermissionGroupResponseDto update(Long id, PermissionGroupRequestDto permissionGroupRequestDto);
 
     void deleteById(Long id);
 

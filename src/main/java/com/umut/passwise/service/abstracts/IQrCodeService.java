@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.QrCode;
+
+import com.umut.passwise.dto.requests.QrCodeRequestDto;
+import com.umut.passwise.dto.responses.QrCodeResponseDto;
 
 public interface IQrCodeService {
 
-    List<QrCode> findAll();
+    List<QrCodeResponseDto> findAll();
 
-    Optional<QrCode> findById(Long id);
+    Optional<QrCodeResponseDto> findById(Long id);
 
-    QrCode save(QrCode qrCode);
+    QrCodeResponseDto save(QrCodeRequestDto qrCodeRequestDto);
+
+    QrCodeResponseDto update(Long id, QrCodeRequestDto qrCodeRequestDto);
 
     void deleteById(Long id);
 

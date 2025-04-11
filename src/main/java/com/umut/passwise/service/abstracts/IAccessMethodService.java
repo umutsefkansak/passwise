@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.AccessMethod;
+
+import com.umut.passwise.dto.requests.AccessMethodRequestDto;
+import com.umut.passwise.dto.responses.AccessMethodResponseDto;
 
 public interface IAccessMethodService {
 
-    List<AccessMethod> findAll();
+    List<AccessMethodResponseDto> findAll();
 
-    Optional<AccessMethod> findById(Long id);
+    Optional<AccessMethodResponseDto> findById(Long id);
 
-    AccessMethod save(AccessMethod accessMethod);
+    AccessMethodResponseDto save(AccessMethodRequestDto accessMethodRequestDto);
+
+    AccessMethodResponseDto update(Long id, AccessMethodRequestDto accessMethodRequestDto);
 
     void deleteById(Long id);
 

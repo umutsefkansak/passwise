@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.Title;
+
+import com.umut.passwise.dto.requests.TitleRequestDto;
+import com.umut.passwise.dto.responses.TitleResponseDto;
 
 public interface ITitleService {
 
-    List<Title> findAll();
+    List<TitleResponseDto> findAll();
 
-    Optional<Title> findById(Long id);
+    Optional<TitleResponseDto> findById(Long id);
 
-    Title save(Title title);
+    TitleResponseDto save(TitleRequestDto titleRequestDto);
+
+    TitleResponseDto update(Long id, TitleRequestDto titleRequestDto);
 
     void deleteById(Long id);
 

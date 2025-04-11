@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.Alert;
+
+import com.umut.passwise.dto.requests.AlertRequestDto;
+import com.umut.passwise.dto.responses.AlertResponseDto;
 
 public interface IAlertService {
 
-    List<Alert> findAll();
+    List<AlertResponseDto> findAll();
 
-    Optional<Alert> findById(Long id);
+    Optional<AlertResponseDto> findById(Long id);
 
-    Alert save(Alert alert);
+    AlertResponseDto save(AlertRequestDto alertRequestDto);
+
+    AlertResponseDto update(Long id, AlertRequestDto alertRequestDto);
 
     void deleteById(Long id);
 

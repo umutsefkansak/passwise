@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.Team;
+
+import com.umut.passwise.dto.requests.TeamRequestDto;
+import com.umut.passwise.dto.responses.TeamResponseDto;
 
 public interface ITeamService {
 
-    List<Team> findAll();
+    List<TeamResponseDto> findAll();
 
-    Optional<Team> findById(Long id);
+    Optional<TeamResponseDto> findById(Long id);
 
-    Team save(Team team);
+    TeamResponseDto save(TeamRequestDto teamRequestDto);
+
+    TeamResponseDto update(Long id, TeamRequestDto teamRequestDto);
 
     void deleteById(Long id);
 

@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.Permission;
+
+import com.umut.passwise.dto.requests.PermissionRequestDto;
+import com.umut.passwise.dto.responses.PermissionResponseDto;
 
 public interface IPermissionService {
 
-    List<Permission> findAll();
+    List<PermissionResponseDto> findAll();
 
-    Optional<Permission> findById(Long id);
+    Optional<PermissionResponseDto> findById(Long id);
 
-    Permission save(Permission permission);
+    PermissionResponseDto save(PermissionRequestDto permissionRequestDto);
+
+    PermissionResponseDto update(Long id, PermissionRequestDto permissionRequestDto);
 
     void deleteById(Long id);
 

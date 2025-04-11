@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.PersonnelPermission;
+
+import com.umut.passwise.dto.requests.PersonnelPermissionRequestDto;
+import com.umut.passwise.dto.responses.PersonnelPermissionResponseDto;
 
 public interface IPersonnelPermissionService {
 
-    List<PersonnelPermission> findAll();
+    List<PersonnelPermissionResponseDto> findAll();
 
-    Optional<PersonnelPermission> findById(Long id);
+    Optional<PersonnelPermissionResponseDto> findById(Long id);
 
-    PersonnelPermission save(PersonnelPermission personnelPermission);
+    PersonnelPermissionResponseDto save(PersonnelPermissionRequestDto personnelPermissionRequestDto);
+
+    PersonnelPermissionResponseDto update(Long id, PersonnelPermissionRequestDto personnelPermissionRequestDto);
 
     void deleteById(Long id);
 

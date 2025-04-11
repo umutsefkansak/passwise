@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.DoorType;
+
+import com.umut.passwise.dto.requests.DoorTypeRequestDto;
+import com.umut.passwise.dto.responses.DoorTypeResponseDto;
 
 public interface IDoorTypeService {
 
-    List<DoorType> findAll();
+    List<DoorTypeResponseDto> findAll();
 
-    Optional<DoorType> findById(Long id);
+    Optional<DoorTypeResponseDto> findById(Long id);
 
-    DoorType save(DoorType doorType);
+    DoorTypeResponseDto save(DoorTypeRequestDto doorTypeRequestDto);
+
+    DoorTypeResponseDto update(Long id, DoorTypeRequestDto doorTypeRequestDto);
 
     void deleteById(Long id);
 

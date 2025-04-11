@@ -1,15 +1,19 @@
 package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
-import com.umut.passwise.entities.PersonType;
+
+import com.umut.passwise.dto.requests.PersonTypeRequestDto;
+import com.umut.passwise.dto.responses.PersonTypeResponseDto;
 
 public interface IPersonTypeService {
 
-    List<PersonType> findAll();
+    List<PersonTypeResponseDto> findAll();
 
-    Optional<PersonType> findById(Long id);
+    Optional<PersonTypeResponseDto> findById(Long id);
 
-    PersonType save(PersonType personType);
+    PersonTypeResponseDto save(PersonTypeRequestDto personTypeRequestDto);
+
+    PersonTypeResponseDto update(Long id, PersonTypeRequestDto personTypeRequestDto);
 
     void deleteById(Long id);
 

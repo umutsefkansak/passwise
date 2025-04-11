@@ -14,7 +14,7 @@ public class Title {
     private Long id;
 
     @Column(unique = true,nullable = false)
-    private String titleName;
+    private String name;
 
     @OneToMany(mappedBy = "title")
     private List<Personnel> personnels;
@@ -28,13 +28,12 @@ public class Title {
         this.id = id;
     }
 
-    public String getTitleName() {
-        return titleName;
+    public String getName() {
+        return name;
     }
 
-    public void setTitleName(String titleName) {
-        this.titleName = titleName;
+    public void setName(String name) {
+        this.name = name;
     }
-
 
 }
