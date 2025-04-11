@@ -27,6 +27,10 @@ public class Card {
     @OneToOne(mappedBy = "card")
     private Personnel personel;
 
+    @ManyToOne
+    @JoinColumn(name = "card_type_id", referencedColumnName = "id")
+    private CardType cardType;
+
     @CreationTimestamp
     @Column(updatable = false)
     private Timestamp registeredAt;
@@ -82,5 +86,13 @@ public class Card {
 
     public void setDeactivatedAt(Timestamp deactivatedAt) {
         this.deactivatedAt = deactivatedAt;
+    }
+
+    public CardType getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(CardType cardType) {
+        this.cardType = cardType;
     }
 }
