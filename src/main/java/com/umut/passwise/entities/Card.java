@@ -37,7 +37,7 @@ public class Card {
     @Column(updatable = false)
     private Timestamp registeredAt;
 
-    @UpdateTimestamp
+
     @Column
     private Timestamp deactivatedAt;
 

@@ -1,5 +1,6 @@
 package com.umut.passwise.dto.responses;
 
+import com.umut.passwise.entities.CardType;
 import com.umut.passwise.entities.Personnel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ public class CardResponseDto {
     private Personnel personel;
     private Timestamp registeredAt;
     private Timestamp deactivatedAt;
+    private CardType cardType;
 
     public String getCardNumber() {
         return cardNumber;
@@ -56,5 +58,13 @@ public class CardResponseDto {
 
     public void setDeactivatedAt(Timestamp deactivatedAt) {
         this.deactivatedAt = deactivatedAt;
+    }
+
+    public CardType getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(CardType cardType) {
+        this.cardType = cardType;
     }
 }

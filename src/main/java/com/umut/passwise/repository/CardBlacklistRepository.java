@@ -11,4 +11,5 @@ import java.util.Optional;
 @Repository
 public interface CardBlacklistRepository extends JpaRepository<CardBlacklist,Long> {
     boolean existsByCard(Card card);
+    boolean existsByCardId(Long cardId);
 }

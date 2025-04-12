@@ -20,12 +20,10 @@ import com.umut.passwise.dto.responses.AccessLogResponseDto;
 import com.umut.passwise.entities.*;
 import com.umut.passwise.repository.*;
 import com.umut.passwise.service.abstracts.*;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.sql.Timestamp;
-import java.time.Instant;
+
 import java.util.Optional;
 
 @Service
@@ -42,7 +40,6 @@ public class AccessControlServiceImpl implements IAccessControlService {
     private final PersonnelRepository personnelRepository;
     private final DoorRepository doorRepository;
     private final IAlertService alertService;
-
     private final QrCodeRepository qrCodeRepository;
 
     @Autowired
@@ -155,8 +152,6 @@ public class AccessControlServiceImpl implements IAccessControlService {
         // Erişim kaydı oluştur ve dön
         return accessLogService.createAccessLog(personnel, card, door, cardAccessMethod, accessResult, details);
     }
-
-
 
 
     @Transactional

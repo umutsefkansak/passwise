@@ -15,7 +15,7 @@ public class CardBlacklist {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "card_id",referencedColumnName = "id")
+    @JoinColumn(name = "card_id",referencedColumnName = "id",unique = true)
     private Card card;
 
 

@@ -11,5 +11,7 @@ public interface PersonnelRepository extends JpaRepository<Personnel,Long> {
     List<Personnel> findAllByIsActiveTrue();
     List<Personnel> findAllByIsActiveFalse();
 
+    Personnel findByCardId(Long id);
+
 
 }
