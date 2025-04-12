@@ -1,6 +1,7 @@
 //Yetki grupları (tek seferde birden fazla yetki için örn Ortak yetkiler)
 package com.umut.passwise.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ public class PermissionGroup {
     private String name;
 
     @OneToMany(mappedBy = "permissionGroup")
+    @JsonIgnore
     private Set<Permission> permissions;
 
     public Long getId() {

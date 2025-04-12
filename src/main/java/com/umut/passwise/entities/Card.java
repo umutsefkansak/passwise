@@ -1,6 +1,7 @@
 package com.umut.passwise.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class Card {
     private Boolean isActive;
 
     @OneToOne(mappedBy = "card")
+    @JsonIgnore
     private Personnel personel;
 
     @ManyToOne

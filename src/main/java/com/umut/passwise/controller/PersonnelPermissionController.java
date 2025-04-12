@@ -1,6 +1,9 @@
 package com.umut.passwise.controller;
+import com.umut.passwise.dto.requests.DoorRequestDto;
 import com.umut.passwise.dto.requests.PersonnelPermissionRequestDto;
 import com.umut.passwise.dto.responses.PersonnelPermissionResponseDto;
+import com.umut.passwise.entities.Door;
+import com.umut.passwise.entities.Personnel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,4 +66,5 @@ public class PersonnelPermissionController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

@@ -1,5 +1,6 @@
 package com.umut.passwise.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -59,11 +60,12 @@ public class Personnel {
 
     // Eski many-to-many ilişkileri kaldırıp, yeni one-to-many ilişkilerine geçiş
     @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<PersonnelPermission> doorPermissions;
 
     @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<PersonnelPermissionGroup> permissionGroupMemberships;
-
 
 
     @ManyToOne

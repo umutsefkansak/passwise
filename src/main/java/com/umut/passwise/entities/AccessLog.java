@@ -13,7 +13,7 @@ public class AccessLog {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "personnel_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "personnel_id", referencedColumnName = "id")
     private Personnel personnel;
 
     @ManyToOne

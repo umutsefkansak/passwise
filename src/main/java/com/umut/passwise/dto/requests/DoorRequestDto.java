@@ -16,7 +16,7 @@ public class DoorRequestDto {
     private Boolean isMainDoor = false;
     private DoorType doorType;
     private AccessDirection accessDirection;
-    private QrCode qrCode;
+
 
     public String getName() {
         return name;
@@ -58,12 +58,5 @@ public class DoorRequestDto {
         this.accessDirection = accessDirection;
     }
 
-    public QrCode getQrCode() {
-        return qrCode;
-    }
-
-    public void setQrCode(QrCode qrCode) {
-        this.qrCode = qrCode;
-    }
 
 }

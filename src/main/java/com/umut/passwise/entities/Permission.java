@@ -1,6 +1,7 @@
 //Yetkiler tek kapı yetkileri için
 package com.umut.passwise.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +18,7 @@ public class Permission {
 
     @ManyToOne
     @JoinColumn(name = "permission_group_id")
+    @JsonIgnore
     private PermissionGroup permissionGroup;
 
     public Long getId() {

@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 public class PersonnelPermissionResponseDto {
     private Personnel personnel;
     private Door door;
-    private Admin grantedByAdmin;
+    private Admin admin;
     private Timestamp grantedAt;
 
     public Personnel getPersonnel() {
@@ -33,12 +33,12 @@ public class PersonnelPermissionResponseDto {
         this.door = door;
     }
 
-    public Admin getGrantedByAdmin() {
-        return grantedByAdmin;
+    public Admin getAdmin() {
+        return admin;
     }
 
-    public void setGrantedByAdmin(Admin grantedByAdmin) {
-        this.grantedByAdmin = grantedByAdmin;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 
     public Timestamp getGrantedAt() {

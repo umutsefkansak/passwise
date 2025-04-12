@@ -22,8 +22,8 @@ public class PersonnelPermission {
     private Door door;
 
     @ManyToOne
-    @JoinColumn(name = "granted_by_admin_id", nullable = false)
-    private Admin grantedByAdmin;
+    @JoinColumn(name = "granted_by_admin_id", nullable = false,referencedColumnName = "id")
+    private Admin admin;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -56,12 +56,12 @@ public class PersonnelPermission {
         this.door = door;
     }
 
-    public Admin getGrantedByAdmin() {
-        return grantedByAdmin;
+    public Admin getAdmin() {
+        return admin;
     }
 
-    public void setGrantedByAdmin(Admin grantedByAdmin) {
-        this.grantedByAdmin = grantedByAdmin;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 
     public Timestamp getGrantedAt() {
@@ -71,5 +71,7 @@ public class PersonnelPermission {
     public void setGrantedAt(Timestamp grantedAt) {
         this.grantedAt = grantedAt;
     }
+
+
 
 }

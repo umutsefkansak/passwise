@@ -1,6 +1,8 @@
 package com.umut.passwise.service.impl;
 import com.umut.passwise.dto.requests.PersonnelPermissionRequestDto;
 import com.umut.passwise.dto.responses.PersonnelPermissionResponseDto;
+import com.umut.passwise.entities.Door;
+import com.umut.passwise.entities.Personnel;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.umut.passwise.service.abstracts.IPersonnelPermissionService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PersonnelPermissionServiceImpl implements IPersonnelPermissionService {

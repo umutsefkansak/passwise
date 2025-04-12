@@ -31,8 +31,6 @@ public class Door {
     private AccessDirection accessDirection;
 
 
-    @OneToOne(mappedBy = "door")
-    private QrCode qrCode;
 
 
     public Long getId() {
@@ -67,5 +65,19 @@ public class Door {
         this.doorType = doorType;
     }
 
+    public Boolean getMainDoor() {
+        return isMainDoor;
+    }
 
+    public void setMainDoor(Boolean mainDoor) {
+        isMainDoor = mainDoor;
+    }
+
+    public AccessDirection getAccessDirection() {
+        return accessDirection;
+    }
+
+    public void setAccessDirection(AccessDirection accessDirection) {
+        this.accessDirection = accessDirection;
+    }
 }
