@@ -1,6 +1,10 @@
 package com.umut.passwise.service.impl;
 import com.umut.passwise.dto.requests.AlertRequestDto;
 import com.umut.passwise.dto.responses.AlertResponseDto;
+import com.umut.passwise.entities.AlertType;
+import com.umut.passwise.entities.Door;
+import com.umut.passwise.entities.Personnel;
+import com.umut.passwise.repository.AlertTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +21,12 @@ import java.util.Optional;
 public class AlertServiceImpl implements IAlertService {
 
     private final AlertRepository alertRepository;
+    private final AlertTypeRepository alertTypeRepository;
 
     @Autowired
-    public AlertServiceImpl(AlertRepository alertRepository) {
+    public AlertServiceImpl(AlertRepository alertRepository, AlertTypeRepository alertTypeRepository) {
         this.alertRepository = alertRepository;
+        this.alertTypeRepository = alertTypeRepository;
     }
 
     @Override
@@ -97,5 +103,22 @@ public class AlertServiceImpl implements IAlertService {
     @Override
     public boolean existsById(Long id) {
         return alertRepository.existsById(id);
+    }
+
+
+    @Override
+    public void createUnauthorizedAccessAlert(Personnel personnel, Door door) {
+        AlertType unauthorizedAccessAlertType = alertTypeRepository.findByName("YETKİSİZ ERİŞİM")
+                .orElseThrow(() -> new RuntimeException("Yetkisiz erişim alarm tipi bulunamadı"));
+
+        Alert alert = new Alert();
+        alert.setPersonnel(personnel);
+        alert.setDoor(door);
+        alert.setAlertType(unauthorizedAccessAlertType);
+        alert.setAlertMessage(personnel.getName() + " " + personnel.getSurname() +
+                " yetkisiz erişim denemesi: " + door.getName());
+        alert.setIsResolved(false);
+
+        alertRepository.save(alert);
     }
 }

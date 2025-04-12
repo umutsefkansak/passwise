@@ -3,18 +3,17 @@ import com.umut.passwise.dto.requests.PersonnelPermissionRequestDto;
 import com.umut.passwise.dto.responses.PersonnelPermissionResponseDto;
 import com.umut.passwise.entities.Door;
 import com.umut.passwise.entities.Personnel;
+import com.umut.passwise.service.abstracts.IPersonnelPermissionService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.umut.passwise.entities.PersonnelPermission;
 import com.umut.passwise.repository.PersonnelPermissionRepository;
-import com.umut.passwise.service.abstracts.IPersonnelPermissionService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class PersonnelPermissionServiceImpl implements IPersonnelPermissionService {
@@ -90,6 +89,11 @@ public class PersonnelPermissionServiceImpl implements IPersonnelPermissionServi
             // Eğer entity bulunamazsa hata fırlat
             throw new EntityNotFoundException("PersonnelPermission with ID " + id + " not found");
         }
+    }
+
+    @Override
+    public boolean existsByPersonnelAndDoor(Personnel personnel, Door door){
+        return personnelPermissionRepository.existsByPersonnelAndDoor(personnel,door);
     }
 
     @Override

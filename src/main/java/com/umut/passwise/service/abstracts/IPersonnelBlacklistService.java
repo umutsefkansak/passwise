@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.umut.passwise.dto.requests.PersonnelBlacklistRequestDto;
 import com.umut.passwise.dto.responses.PersonnelBlacklistResponseDto;
+import com.umut.passwise.entities.Personnel;
 
 public interface IPersonnelBlacklistService {
 
@@ -18,4 +19,5 @@ public interface IPersonnelBlacklistService {
     void deleteById(Long id);
 
     boolean existsById(Long id);
+    boolean existsByPersonnel(Personnel personnel);
 }

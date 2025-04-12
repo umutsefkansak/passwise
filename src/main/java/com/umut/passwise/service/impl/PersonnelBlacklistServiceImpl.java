@@ -1,6 +1,7 @@
 package com.umut.passwise.service.impl;
 import com.umut.passwise.dto.requests.PersonnelBlacklistRequestDto;
 import com.umut.passwise.dto.responses.PersonnelBlacklistResponseDto;
+import com.umut.passwise.entities.Personnel;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,5 +98,10 @@ public class PersonnelBlacklistServiceImpl implements IPersonnelBlacklistService
     @Override
     public boolean existsById(Long id) {
         return personnelBlacklistRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByPersonnel(Personnel personnel) {
+        return personnelBlacklistRepository.existsByPersonnel(personnel);
     }
 }

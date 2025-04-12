@@ -1,6 +1,7 @@
 package com.umut.passwise.controller;
 
 import com.umut.passwise.dto.requests.CardAccessRequestDto;
+import com.umut.passwise.dto.requests.QrCodeAccessRequestDto;
 import com.umut.passwise.dto.responses.AccessLogResponseDto;
 import com.umut.passwise.service.abstracts.IAccessControlService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,12 @@ public class AccessControlController {
     @PostMapping("/card")
     public ResponseEntity<AccessLogResponseDto> processCardAccess(@RequestBody CardAccessRequestDto requestDto) {
         AccessLogResponseDto responseDto = accessControlService.processCardAccess(requestDto);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @PostMapping("/qr")
+    public ResponseEntity<AccessLogResponseDto> processQrCodeAccess(@RequestBody QrCodeAccessRequestDto requestDto) {
+        AccessLogResponseDto responseDto = accessControlService.processQrCodeAccess(requestDto);
         return ResponseEntity.ok(responseDto);
     }
 }

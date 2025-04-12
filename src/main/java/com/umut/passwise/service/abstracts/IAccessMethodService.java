@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.umut.passwise.dto.requests.AccessMethodRequestDto;
 import com.umut.passwise.dto.responses.AccessMethodResponseDto;
+import com.umut.passwise.entities.AccessMethod;
 
 public interface IAccessMethodService {
 
@@ -18,4 +19,5 @@ public interface IAccessMethodService {
     void deleteById(Long id);
 
     boolean existsById(Long id);
+
 }

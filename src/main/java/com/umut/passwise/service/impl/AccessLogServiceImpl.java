@@ -1,14 +1,16 @@
 package com.umut.passwise.service.impl;
 import com.umut.passwise.dto.requests.AccessLogRequestDto;
 import com.umut.passwise.dto.responses.AccessLogResponseDto;
+import com.umut.passwise.entities.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.umut.passwise.entities.AccessLog;
 import com.umut.passwise.repository.AccessLogRepository;
 import com.umut.passwise.service.abstracts.IAccessLogService;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -87,6 +89,26 @@ public class AccessLogServiceImpl implements IAccessLogService {
             // Eğer entity bulunamazsa hata fırlat
             throw new EntityNotFoundException("AccessLog with ID " + id + " not found");
         }
+    }
+
+    public AccessLogResponseDto createAccessLog(Personnel personnel, Card card, Door door,
+                                                 AccessMethod accessMethod, AccessResult accessResult, String details) {
+
+        AccessLog accessLog = new AccessLog();
+        accessLog.setPersonnel(personnel);
+        accessLog.setCard(card);
+        accessLog.setDoor(door);
+        accessLog.setAccessTimestamp(Timestamp.from(Instant.now()));
+        accessLog.setAccessMethod(accessMethod);
+        accessLog.setAccessResult(accessResult);
+        accessLog.setDetails(details);
+
+        AccessLog savedLog = accessLogRepository.save(accessLog);
+
+        AccessLogResponseDto responseDto = new AccessLogResponseDto();
+        BeanUtils.copyProperties(savedLog, responseDto);
+
+        return responseDto;
     }
 
     @Override

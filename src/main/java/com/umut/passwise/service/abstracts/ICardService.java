@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.umut.passwise.dto.requests.CardRequestDto;
 import com.umut.passwise.dto.responses.CardResponseDto;
+import com.umut.passwise.entities.Card;
 
 public interface ICardService {
 
@@ -18,4 +19,5 @@ public interface ICardService {
     void deleteById(Long id);
 
     boolean existsById(Long id);
+
 }

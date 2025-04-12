@@ -1,20 +1,23 @@
 package com.umut.passwise.service.impl;
 import com.umut.passwise.dto.requests.PersonnelPermissionGroupRequestDto;
 import com.umut.passwise.dto.responses.PersonnelPermissionGroupResponseDto;
+import com.umut.passwise.entities.Permission;
+import com.umut.passwise.entities.PermissionGroup;
+import com.umut.passwise.entities.Personnel;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.umut.passwise.entities.PersonnelPermissionGroup;
 import com.umut.passwise.repository.PersonnelPermissionGroupRepository;
-import com.umut.passwise.service.abstracts.IPersonnelPermissionGroupService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class PersonnelPermissionGroupServiceImpl implements IPersonnelPermissionGroupService {
+public class PersonnelPermissionGroupServiceImpl implements com.umut.passwise.service.abstracts.IPersonnelPermissionGroupService {
 
     private final PersonnelPermissionGroupRepository personnelPermissionGroupRepository;
 
@@ -87,6 +90,31 @@ public class PersonnelPermissionGroupServiceImpl implements IPersonnelPermission
             // Eğer entity bulunamazsa hata fırlat
             throw new EntityNotFoundException("PersonnelPermissionGroup with ID " + id + " not found");
         }
+    }
+
+    @Override
+    public boolean hasIndirectPermission(Personnel personnel, Long doorId){
+        // Personelin üye olduğu yetki gruplarını bul
+        boolean hasIndirectPermission = false;
+        Set<PersonnelPermissionGroup> permissionGroups = personnel.getPermissionGroupMemberships();
+        if (permissionGroups != null && !permissionGroups.isEmpty()) {
+            for (PersonnelPermissionGroup personnelPermissionGroup : permissionGroups) {
+                // Her bir yetki grubunun içindeki kapı yetkilerini kontrol et
+                PermissionGroup group = personnelPermissionGroup.getPermissionGroup();
+                Set<Permission> permissions = group.getPermissions();
+
+                if (permissions != null) {
+                    for (Permission permission : permissions) {
+                        if (permission.getDoor().getId().equals(doorId)) {
+                            hasIndirectPermission = true;
+                            return hasIndirectPermission;
+                        }
+                    }
+                }
+
+            }
+        }
+        return hasIndirectPermission;
     }
 
     @Override

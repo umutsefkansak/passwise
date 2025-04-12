@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.umut.passwise.dto.requests.AccessLogRequestDto;
 import com.umut.passwise.dto.responses.AccessLogResponseDto;
+import com.umut.passwise.entities.*;
 
 public interface IAccessLogService {
 
@@ -18,4 +19,8 @@ public interface IAccessLogService {
     void deleteById(Long id);
 
     boolean existsById(Long id);
+
+
+     AccessLogResponseDto createAccessLog(Personnel personnel, Card card, Door door,
+                                                AccessMethod accessMethod, AccessResult accessResult, String details);
 }

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.umut.passwise.dto.requests.CardBlacklistRequestDto;
 import com.umut.passwise.dto.responses.CardBlacklistResponseDto;
+import com.umut.passwise.entities.Card;
 
 public interface ICardBlacklistService {
 
@@ -18,4 +19,6 @@ public interface ICardBlacklistService {
     void deleteById(Long id);
 
     boolean existsById(Long id);
+
+    boolean existsByCard(Card card);
 }

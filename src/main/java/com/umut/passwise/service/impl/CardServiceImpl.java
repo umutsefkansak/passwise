@@ -1,13 +1,13 @@
 package com.umut.passwise.service.impl;
 import com.umut.passwise.dto.requests.CardRequestDto;
 import com.umut.passwise.dto.responses.CardResponseDto;
+import com.umut.passwise.service.abstracts.ICardService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.umut.passwise.entities.Card;
 import com.umut.passwise.repository.CardRepository;
-import com.umut.passwise.service.abstracts.ICardService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +88,6 @@ public class CardServiceImpl implements ICardService {
             throw new EntityNotFoundException("Card with ID " + id + " not found");
         }
     }
-
 
 
 

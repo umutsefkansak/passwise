@@ -98,4 +98,5 @@ public class AccessResultServiceImpl implements IAccessResultService {
     public boolean existsById(Long id) {
         return accessResultRepository.existsById(id);
     }
+
 }

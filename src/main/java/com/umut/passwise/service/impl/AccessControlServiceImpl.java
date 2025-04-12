@@ -1,66 +1,73 @@
+/*
+BAZI YERLERDE REPOSITORY BAZI YERLERDE SERVİCE KULLANILMASININ SEBEBİ
+Şu anki durumda, erişim kontrolü gibi hızlı ve kritik bir işlem için,
+mevcut yapı (repository doğrudan kullanımı) daha uygundur.
+
+Karmaşık iş mantığı için servisler kullanılıyor
+
+Kapı, kart ve personel gibi temel entity arama işlemleri için doğrudan repository'ler kullanılıyor
+
+Her şeyi servis katmanına taşımak bazen gereksiz karmaşıklığa ve performans kaybına yol açabilir.
+
+*/
+
+
 package com.umut.passwise.service.impl;
 
 import com.umut.passwise.dto.requests.CardAccessRequestDto;
+import com.umut.passwise.dto.requests.QrCodeAccessRequestDto;
 import com.umut.passwise.dto.responses.AccessLogResponseDto;
 import com.umut.passwise.entities.*;
 import com.umut.passwise.repository.*;
-import com.umut.passwise.service.abstracts.IAccessControlService;
-
+import com.umut.passwise.service.abstracts.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class AccessControlServiceImpl implements IAccessControlService {
 
+    private final IPersonnelPermissionService personnelPermissionService;
+    private final IPersonnelPermissionGroupService personnelPermissionGroupService;
+    private final IAccessLogService accessLogService;
     private final CardRepository cardRepository;
     private final CardBlacklistRepository cardBlacklistRepository;
-    private final PersonnelRepository personnelRepository;
     private final PersonnelBlacklistRepository personnelBlacklistRepository;
-    private final PersonnelPermissionRepository personnelPermissionRepository;
-    private final PermissionRepository permissionRepository;
-    private final PersonnelPermissionGroupRepository personnelPermissionGroupRepository;
-    private final AccessLogRepository accessLogRepository;
     private final AccessMethodRepository accessMethodRepository;
     private final AccessResultRepository accessResultRepository;
+    private final PersonnelRepository personnelRepository;
     private final DoorRepository doorRepository;
-    private final AlertRepository alertRepository;
-    private final AlertTypeRepository alertTypeRepository;
+    private final IAlertService alertService;
+
+    private final QrCodeRepository qrCodeRepository;
 
     @Autowired
     public AccessControlServiceImpl(
-            CardRepository cardRepository,
+            IAccessLogService accessLogService, CardRepository cardRepository,
             CardBlacklistRepository cardBlacklistRepository,
-            PersonnelRepository personnelRepository,
             PersonnelBlacklistRepository personnelBlacklistRepository,
-            PersonnelPermissionRepository personnelPermissionRepository,
-            PermissionRepository permissionRepository,
-            PersonnelPermissionGroupRepository personnelPermissionGroupRepository,
-            AccessLogRepository accessLogRepository,
+            IPersonnelPermissionService personnelPermissionService,
+            IPersonnelPermissionGroupService personnelPermissionGroupService,
             AccessMethodRepository accessMethodRepository,
-            AccessResultRepository accessResultRepository,
+            AccessResultRepository accessResultRepository, PersonnelRepository personnelRepository,
             DoorRepository doorRepository,
-            AlertRepository alertRepository,
-            AlertTypeRepository alertTypeRepository) {
+            IAlertService alertService, QrCodeRepository qrCodeRepository) {
+        this.accessLogService = accessLogService;
         this.cardRepository = cardRepository;
         this.cardBlacklistRepository = cardBlacklistRepository;
-        this.personnelRepository = personnelRepository;
         this.personnelBlacklistRepository = personnelBlacklistRepository;
-        this.personnelPermissionRepository = personnelPermissionRepository;
-        this.permissionRepository = permissionRepository;
-        this.personnelPermissionGroupRepository = personnelPermissionGroupRepository;
-        this.accessLogRepository = accessLogRepository;
+        this.personnelPermissionService = personnelPermissionService;
+        this.personnelPermissionGroupService = personnelPermissionGroupService;
         this.accessMethodRepository = accessMethodRepository;
         this.accessResultRepository = accessResultRepository;
+        this.personnelRepository = personnelRepository;
         this.doorRepository = doorRepository;
-        this.alertRepository = alertRepository;
-        this.alertTypeRepository = alertTypeRepository;
+        this.alertService = alertService;
+        this.qrCodeRepository = qrCodeRepository;
     }
 
     @Transactional
@@ -87,7 +94,7 @@ public class AccessControlServiceImpl implements IAccessControlService {
         Optional<Card> cardOptional = cardRepository.findByCardNumber(cardNumber);
         if (cardOptional.isEmpty()) {
             details += "Geçersiz kart.";
-            return createAccessLog(null, null, door, cardAccessMethod, deniedResult, details);
+            return accessLogService.createAccessLog(null, null, door, cardAccessMethod, deniedResult, details);
         }
 
         Card card = cardOptional.get();
@@ -95,62 +102,41 @@ public class AccessControlServiceImpl implements IAccessControlService {
         // Kartın aktif olup olmadığını kontrol et
         if (!card.getActive()) {
             details += "Kart aktif değil.";
-            return createAccessLog(null, card, door, cardAccessMethod, deniedResult, details);
+            return accessLogService.createAccessLog(null, card, door, cardAccessMethod, deniedResult, details);
         }
 
         // Kartın kara listede olup olmadığını kontrol et
         if (cardBlacklistRepository.existsByCard(card)) {
             details += "Kart kara listede.";
-            return createAccessLog(null, card, door, cardAccessMethod, deniedResult, details);
+            return accessLogService.createAccessLog(null, card, door, cardAccessMethod, deniedResult, details);
         }
 
         // Personeli bul
         Personnel personnel = card.getPersonel();
         if (personnel == null) {
             details += "Kart herhangi bir personele atanmamış.";
-            return createAccessLog(null, card, door, cardAccessMethod, deniedResult, details);
+            return accessLogService.createAccessLog(null, card, door, cardAccessMethod, deniedResult, details);
         }
 
         // Personelin aktif olup olmadığını kontrol et
         if (!personnel.isActive()) {
             details += "Personel aktif değil.";
-            return createAccessLog(personnel, card, door, cardAccessMethod, deniedResult, details);
+            return accessLogService.createAccessLog(personnel, card, door, cardAccessMethod, deniedResult, details);
         }
 
         // Personelin kara listede olup olmadığını kontrol et
         if (personnelBlacklistRepository.existsByPersonnel(personnel)) {
             details += "Personel kara listede.";
-            return createAccessLog(personnel, card, door, cardAccessMethod, deniedResult, details);
+            return accessLogService.createAccessLog(personnel, card, door, cardAccessMethod, deniedResult, details);
         }
 
         // Direkt kapı yetkisini kontrol et
-        boolean hasDirectPermission = personnelPermissionRepository.existsByPersonnelAndDoor(personnel, door);
+        boolean hasDirectPermission = personnelPermissionService.existsByPersonnelAndDoor(personnel, door);
 
         // Dolaylı kapı yetkisini kontrol et (yetki grupları üzerinden)
         boolean hasIndirectPermission = false;
         if (!hasDirectPermission) {
-            // Personelin üye olduğu yetki gruplarını bul
-            Set<PersonnelPermissionGroup> permissionGroups = personnel.getPermissionGroupMemberships();
-            if (permissionGroups != null && !permissionGroups.isEmpty()) {
-                for (PersonnelPermissionGroup permissionGroup : permissionGroups) {
-                    // Her bir yetki grubunun içindeki kapı yetkilerini kontrol et
-                    PermissionGroup group = permissionGroup.getPermissionGroup();
-                    Set<Permission> permissions = group.getPermissions();
-
-                    if (permissions != null) {
-                        for (Permission permission : permissions) {
-                            if (permission.getDoor().getId().equals(doorId)) {
-                                hasIndirectPermission = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (hasIndirectPermission) {
-                        break;
-                    }
-                }
-            }
+            hasIndirectPermission = personnelPermissionGroupService.hasIndirectPermission(personnel,doorId);
         }
 
         // Erişim sonucunu belirle
@@ -163,45 +149,92 @@ public class AccessControlServiceImpl implements IAccessControlService {
             details += "Personelin kapıya erişim yetkisi yok.";
 
             // Yetkisiz erişim denemesi için bir alarm oluştur
-            createUnauthorizedAccessAlert(personnel, door);
+            alertService.createUnauthorizedAccessAlert(personnel, door);
         }
 
         // Erişim kaydı oluştur ve dön
-        return createAccessLog(personnel, card, door, cardAccessMethod, accessResult, details);
+        return accessLogService.createAccessLog(personnel, card, door, cardAccessMethod, accessResult, details);
     }
 
-    private AccessLogResponseDto createAccessLog(Personnel personnel, Card card, Door door,
-                                                 AccessMethod accessMethod, AccessResult accessResult, String details) {
 
-        AccessLog accessLog = new AccessLog();
-        accessLog.setPersonnel(personnel);
-        accessLog.setCard(card);
-        accessLog.setDoor(door);
-        accessLog.setAccessTimestamp(Timestamp.from(Instant.now()));
-        accessLog.setAccessMethod(accessMethod);
-        accessLog.setAccessResult(accessResult);
-        accessLog.setDetails(details);
 
-        AccessLog savedLog = accessLogRepository.save(accessLog);
 
-        AccessLogResponseDto responseDto = new AccessLogResponseDto();
-        BeanUtils.copyProperties(savedLog, responseDto);
+    @Transactional
+    public AccessLogResponseDto processQrCodeAccess(QrCodeAccessRequestDto requestDto) {
+        String qrCodeContent = requestDto.getQrCodeContent();
+        Long personnelId = requestDto.getScanningPersonnelId();
 
-        return responseDto;
+        // QR kod içeriğini kullanarak doğru QR kod kaydını bul
+        Optional<QrCode> qrCodeOptional = qrCodeRepository.findByCode(qrCodeContent);
+
+        // Varsayılan olarak "QR" erişim yöntemini kullan
+        AccessMethod qrAccessMethod = accessMethodRepository.findByName("QR_KOD")
+                .orElseThrow(() -> new RuntimeException("QR Kod erişim yöntemi bulunamadı"));
+
+        // Erişim sonucunu başlangıçta "REDDEDILDI" olarak ayarla
+        AccessResult deniedResult = accessResultRepository.findByName("REDDEDILDI")
+                .orElseThrow(() -> new RuntimeException("Reddedildi erişim sonucu bulunamadı"));
+
+        AccessResult accessResult = deniedResult;
+        String details = "Erişim reddedildi: ";
+
+        // QR Kod kontrolü
+        if (qrCodeOptional.isEmpty()) {
+            details += "Geçersiz QR kod.";
+            return accessLogService.createAccessLog(null, null, null, qrAccessMethod, deniedResult, details);
+        }
+
+        QrCode qrCode = qrCodeOptional.get();
+        Door door = qrCode.getDoor();
+
+        // Personel kontrolü
+        Personnel scanningPersonnel = null;
+        if (personnelId != null) {
+            scanningPersonnel = personnelRepository.findById(personnelId)
+                    .orElse(null);
+        }
+
+        if (scanningPersonnel == null) {
+            details += "Personel bilgisi bulunamadı.";
+            return accessLogService.createAccessLog(null, null, door, qrAccessMethod, deniedResult, details);
+        }
+
+        // Personelin aktif olup olmadığını kontrol et
+        if (!scanningPersonnel.isActive()) {
+            details += "Personel aktif değil.";
+            return accessLogService.createAccessLog(scanningPersonnel, null, door, qrAccessMethod, deniedResult, details);
+        }
+
+        // Personelin kara listede olup olmadığını kontrol et
+        if (personnelBlacklistRepository.existsByPersonnel(scanningPersonnel)) {
+            details += "Personel kara listede.";
+            return accessLogService.createAccessLog(scanningPersonnel, null, door, qrAccessMethod, deniedResult, details);
+        }
+
+        // Direkt kapı yetkisini kontrol et
+        boolean hasDirectPermission = personnelPermissionService.existsByPersonnelAndDoor(scanningPersonnel, door);
+
+        // Dolaylı kapı yetkisini kontrol et (yetki grupları üzerinden)
+        boolean hasIndirectPermission = false;
+        if (!hasDirectPermission) {
+            hasIndirectPermission = personnelPermissionGroupService.hasIndirectPermission(scanningPersonnel, door.getId());
+        }
+
+        // Erişim sonucunu belirle
+        if (hasDirectPermission || hasIndirectPermission) {
+            AccessResult approvedResult = accessResultRepository.findByName("ONAYLANDI")
+                    .orElseThrow(() -> new RuntimeException("Onaylandı erişim sonucu bulunamadı"));
+            accessResult = approvedResult;
+            details = "Erişim onaylandı: " + (hasDirectPermission ? "Doğrudan yetki." : "Grup yetkisi.");
+        } else {
+            details += "Personelin kapıya erişim yetkisi yok.";
+
+            // Yetkisiz erişim denemesi için bir alarm oluştur
+            alertService.createUnauthorizedAccessAlert(scanningPersonnel, door);
+        }
+
+        // Erişim kaydı oluştur ve dön
+        return accessLogService.createAccessLog(scanningPersonnel, null, door, qrAccessMethod, accessResult, details);
     }
 
-    private void createUnauthorizedAccessAlert(Personnel personnel, Door door) {
-        AlertType unauthorizedAccessAlertType = alertTypeRepository.findByName("YETKİSİZ ERİŞİM")
-                .orElseThrow(() -> new RuntimeException("Yetkisiz erişim alarm tipi bulunamadı"));
-
-        Alert alert = new Alert();
-        alert.setPersonnel(personnel);
-        alert.setDoor(door);
-        alert.setAlertType(unauthorizedAccessAlertType);
-        alert.setAlertMessage(personnel.getName() + " " + personnel.getSurname() +
-                " yetkisiz erişim denemesi: " + door.getName());
-        alert.setIsResolved(false);
-
-        alertRepository.save(alert);
-    }
 }

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.umut.passwise.dto.requests.PersonnelPermissionGroupRequestDto;
 import com.umut.passwise.dto.responses.PersonnelPermissionGroupResponseDto;
+import com.umut.passwise.entities.Personnel;
 
 public interface IPersonnelPermissionGroupService {
 
@@ -18,4 +19,6 @@ public interface IPersonnelPermissionGroupService {
     void deleteById(Long id);
 
     boolean existsById(Long id);
+
+    boolean hasIndirectPermission(Personnel personnel,Long doorId);
 }

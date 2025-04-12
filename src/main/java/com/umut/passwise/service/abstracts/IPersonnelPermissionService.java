@@ -21,4 +21,6 @@ public interface IPersonnelPermissionService {
 
     boolean existsById(Long id);
 
+    boolean existsByPersonnelAndDoor(Personnel personnel, Door door);
+
 }

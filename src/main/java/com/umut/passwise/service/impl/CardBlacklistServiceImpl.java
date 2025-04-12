@@ -1,6 +1,7 @@
 package com.umut.passwise.service.impl;
 import com.umut.passwise.dto.requests.CardBlacklistRequestDto;
 import com.umut.passwise.dto.responses.CardBlacklistResponseDto;
+import com.umut.passwise.entities.Card;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,5 +98,10 @@ public class CardBlacklistServiceImpl implements ICardBlacklistService {
     @Override
     public boolean existsById(Long id) {
         return cardBlacklistRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByCard(Card card) {
+        return cardBlacklistRepository.existsByCard(card);
     }
 }
