@@ -96,7 +96,7 @@ public class PersonnelPermissionServiceImpl implements IPersonnelPermissionServi
         return personnelPermissionRepository.existsByPersonnelAndDoor(personnel,door);
     }
 
-    @Override
+
     public void deleteById(Long id) {
         personnelPermissionRepository.deleteById(id);
     }
