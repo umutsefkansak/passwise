@@ -4,6 +4,7 @@ import com.umut.passwise.dto.responses.PersonnelPermissionGroupResponseDto;
 import com.umut.passwise.entities.Permission;
 import com.umut.passwise.entities.PermissionGroup;
 import com.umut.passwise.entities.Personnel;
+import com.umut.passwise.service.abstracts.IPersonnelPermissionGroupService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class PersonnelPermissionGroupServiceImpl implements com.umut.passwise.service.abstracts.IPersonnelPermissionGroupService {
+public class PersonnelPermissionGroupServiceImpl implements IPersonnelPermissionGroupService {
 
     private final PersonnelPermissionGroupRepository personnelPermissionGroupRepository;
 
@@ -125,5 +126,17 @@ public class PersonnelPermissionGroupServiceImpl implements com.umut.passwise.se
     @Override
     public boolean existsById(Long id) {
         return personnelPermissionGroupRepository.existsById(id);
+    }
+
+
+    @Override
+    public void deleteByPersonnelAndPermissionGroup(Personnel personnel, PermissionGroup permissionGroup) {
+        // Repository'de uygun bir metot oluşturun
+        personnelPermissionGroupRepository.deleteByPersonnelAndPermissionGroup(personnel, permissionGroup);
+    }
+
+    @Override
+    public boolean existsByPersonnelAndPermissionGroup(Personnel personnel, PermissionGroup permissionGroup) {
+        return personnelPermissionGroupRepository.existsByPersonnelAndPermissionGroup(personnel, permissionGroup);
     }
 }

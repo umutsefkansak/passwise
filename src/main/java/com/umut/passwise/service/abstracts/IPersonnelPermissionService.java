@@ -23,4 +23,6 @@ public interface IPersonnelPermissionService {
 
     boolean existsByPersonnelAndDoor(Personnel personnel, Door door);
 
+    void deleteByPersonnelAndDoor(Personnel personnel, Door door);
+
 }

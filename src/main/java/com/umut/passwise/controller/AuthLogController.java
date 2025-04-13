@@ -1,4 +1,48 @@
 package com.umut.passwise.controller;
+
+import com.umut.passwise.dto.responses.AuthLogResponseDto;
+import com.umut.passwise.service.abstracts.IAuthLogService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/auth-logs")
+public class AuthLogController {
+
+    private final IAuthLogService authLogService;
+
+    @Autowired
+    public AuthLogController(IAuthLogService authLogService) {
+        this.authLogService = authLogService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AuthLogResponseDto>> getAllLogs() {
+        List<AuthLogResponseDto> logs = authLogService.findAll();
+        return new ResponseEntity<>(logs, HttpStatus.OK);
+    }
+
+    @GetMapping("/recent")
+    public ResponseEntity<List<AuthLogResponseDto>> getRecentLogs(@RequestParam(defaultValue = "10") int limit) {
+        List<AuthLogResponseDto> logs = authLogService.findRecentLogs(limit);
+        return new ResponseEntity<>(logs, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AuthLogResponseDto> getLogById(@PathVariable("id") Long id) {
+        Optional<AuthLogResponseDto> log = authLogService.findById(id);
+        return log.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+}
+
+
+/*package com.umut.passwise.controller;
 import com.umut.passwise.dto.requests.AuthLogRequestDto;
 import com.umut.passwise.dto.responses.AuthLogResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +107,4 @@ public class AuthLogController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-}
+}*/

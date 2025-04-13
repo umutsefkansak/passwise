@@ -105,4 +105,11 @@ public class PersonnelPermissionServiceImpl implements IPersonnelPermissionServi
     public boolean existsById(Long id) {
         return personnelPermissionRepository.existsById(id);
     }
+    @Override
+    public void deleteByPersonnelAndDoor(Personnel personnel, Door door) {
+        // Repository'de uygun bir metot oluşturun
+        personnelPermissionRepository.deleteByPersonnelAndDoor(personnel, door);
+    }
+
+
 }

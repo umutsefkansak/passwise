@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PersonnelPermissionRepository extends JpaRepository<PersonnelPermission,Long> {
     boolean existsByPersonnelAndDoor(Personnel personnel, Door door);
+    void deleteByPersonnelAndDoor(Personnel personnel, Door door);
 }
