@@ -136,14 +136,13 @@ public class PersonnelBlacklistServiceImpl implements IPersonnelBlacklistService
 
     @Override
     public void setPersonnelActiveState(Long personnelId, boolean isActive) {
-        //PERSONELİN ÇALIŞMA DURUMUNU PASİF YAP
+        //PERSONELİN ÇALIŞMA DURUMUNU DEGİSTİR
         Optional<Personnel> personnelOptional = personnelRepository.findById(personnelId);
         if (personnelOptional.isPresent()){
             Personnel personnel = personnelOptional.get();
             personnel.setActive(isActive);
             personnelRepository.save(personnel);
         }
-
 
     }
 
