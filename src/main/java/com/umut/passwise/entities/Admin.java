@@ -1,13 +1,16 @@
 package com.umut.passwise.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "admins")
-public class Admin {
+public class Admin implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,40 +35,72 @@ public class Admin {
         return id;
     }
 
-    public void setId(Long id) {
+    public Admin setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Admin setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getSurname() {
         return surname;
     }
 
-    public void setSurname(String surname) {
+    public Admin setSurname(String surname) {
         this.surname = surname;
+        return this;
+
     }
 
-    public String getUsername() {
-        return username;
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
     }
 
-    public void setUsername(String username) {
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+
+    public Admin setUsername(String username) {
         this.username = username;
+        return this;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public Admin setPassword(String password) {
         this.password = password;
+        return this;
+    }
+    @Override
+    public String getUsername() {
+        return username;
     }
 
 
