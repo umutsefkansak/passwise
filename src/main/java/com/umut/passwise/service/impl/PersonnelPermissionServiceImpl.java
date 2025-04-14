@@ -1,15 +1,23 @@
 package com.umut.passwise.service.impl;
+
+import com.umut.passwise.dto.requests.BulkDoorPermissionRequestDto;
 import com.umut.passwise.dto.requests.PersonnelPermissionRequestDto;
 import com.umut.passwise.dto.responses.PersonnelPermissionResponseDto;
+import com.umut.passwise.entities.Admin;
 import com.umut.passwise.entities.Door;
 import com.umut.passwise.entities.Personnel;
+import com.umut.passwise.entities.PersonnelPermission;
+import com.umut.passwise.repository.AdminRepository;
+import com.umut.passwise.repository.DoorRepository;
+import com.umut.passwise.repository.PersonnelPermissionRepository;
+import com.umut.passwise.repository.PersonnelRepository;
+import com.umut.passwise.service.abstracts.IAuthLogService;
 import com.umut.passwise.service.abstracts.IPersonnelPermissionService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.umut.passwise.entities.PersonnelPermission;
-import com.umut.passwise.repository.PersonnelPermissionRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +27,23 @@ import java.util.Optional;
 public class PersonnelPermissionServiceImpl implements IPersonnelPermissionService {
 
     private final PersonnelPermissionRepository personnelPermissionRepository;
+    private final PersonnelRepository personnelRepository;
+    private final DoorRepository doorRepository;
+    private final AdminRepository adminRepository;
+    private final IAuthLogService authLogService;
 
     @Autowired
-    public PersonnelPermissionServiceImpl(PersonnelPermissionRepository personnelPermissionRepository) {
+    public PersonnelPermissionServiceImpl(
+            PersonnelPermissionRepository personnelPermissionRepository,
+            PersonnelRepository personnelRepository,
+            DoorRepository doorRepository,
+            AdminRepository adminRepository,
+            IAuthLogService authLogService) {
         this.personnelPermissionRepository = personnelPermissionRepository;
+        this.personnelRepository = personnelRepository;
+        this.doorRepository = doorRepository;
+        this.adminRepository = adminRepository;
+        this.authLogService = authLogService;
     }
 
     @Override
@@ -42,14 +63,13 @@ public class PersonnelPermissionServiceImpl implements IPersonnelPermissionServi
     public Optional<PersonnelPermissionResponseDto> findById(Long id) {
         Optional<PersonnelPermission> personnelPermission = personnelPermissionRepository.findById(id);
 
-        // Eğer bulunmuşsa, kopyalama işlemi yapıyoruz
         if (personnelPermission.isPresent()) {
             PersonnelPermissionResponseDto dto = new PersonnelPermissionResponseDto();
-            BeanUtils.copyProperties(personnelPermission.get(), dto);  // personnelPermission.get() ile veriye ulaşıyoruz
+            BeanUtils.copyProperties(personnelPermission.get(), dto);
             return Optional.of(dto);
         }
 
-        return Optional.empty();  // Eğer veri yoksa boş döndürüyoruz
+        return Optional.empty();
     }
 
     @Override
@@ -58,9 +78,7 @@ public class PersonnelPermissionServiceImpl implements IPersonnelPermissionServi
         PersonnelPermissionResponseDto personnelPermissionResponseDto = new PersonnelPermissionResponseDto();
 
         BeanUtils.copyProperties(personnelPermissionRequestDto, personnelPermission);
-
         personnelPermissionRepository.save(personnelPermission);
-
         BeanUtils.copyProperties(personnelPermission, personnelPermissionResponseDto);
 
         return personnelPermissionResponseDto;
@@ -68,35 +86,28 @@ public class PersonnelPermissionServiceImpl implements IPersonnelPermissionServi
 
     @Override
     public PersonnelPermissionResponseDto update(Long id, PersonnelPermissionRequestDto personnelPermissionRequestDto) {
-        // Mevcut entity'yi bul
         Optional<PersonnelPermission> personnelPermissionOptional = personnelPermissionRepository.findById(id);
 
         if (personnelPermissionOptional.isPresent()) {
             PersonnelPermission personnelPermission = personnelPermissionOptional.get();
-
-            // İlgili alanları güncelle
             BeanUtils.copyProperties(personnelPermissionRequestDto, personnelPermission);
-
-            // Güncellenmiş entity'yi kaydet
             personnelPermissionRepository.save(personnelPermission);
 
-            // Güncellenmiş entity'yi DTO'ya dönüştür
             PersonnelPermissionResponseDto personnelPermissionResponseDto = new PersonnelPermissionResponseDto();
             BeanUtils.copyProperties(personnelPermission, personnelPermissionResponseDto);
 
             return personnelPermissionResponseDto;
         } else {
-            // Eğer entity bulunamazsa hata fırlat
             throw new EntityNotFoundException("PersonnelPermission with ID " + id + " not found");
         }
     }
 
     @Override
     public boolean existsByPersonnelAndDoor(Personnel personnel, Door door){
-        return personnelPermissionRepository.existsByPersonnelAndDoor(personnel,door);
+        return personnelPermissionRepository.existsByPersonnelAndDoor(personnel, door);
     }
 
-
+    @Override
     public void deleteById(Long id) {
         personnelPermissionRepository.deleteById(id);
     }
@@ -105,11 +116,114 @@ public class PersonnelPermissionServiceImpl implements IPersonnelPermissionServi
     public boolean existsById(Long id) {
         return personnelPermissionRepository.existsById(id);
     }
+
     @Override
     public void deleteByPersonnelAndDoor(Personnel personnel, Door door) {
-        // Repository'de uygun bir metot oluşturun
         personnelPermissionRepository.deleteByPersonnelAndDoor(personnel, door);
     }
 
+    // Controller'dan taşınan yeni metodlar
+    @Override
+    public PersonnelPermissionResponseDto grantPermission(PersonnelPermissionRequestDto dto) {
+        PersonnelPermissionResponseDto savedEntity = save(dto);
 
+        // Log oluştur
+        authLogService.logDoorPermissionGrant(
+                dto.getAdmin(),
+                dto.getPersonnel(),
+                dto.getDoor()
+        );
+
+        return savedEntity;
+    }
+
+    @Override
+    public List<PersonnelPermissionResponseDto> grantBulkPermissions(BulkDoorPermissionRequestDto bulkRequestDto) {
+        Personnel personnel = personnelRepository.findById(bulkRequestDto.getPersonnelId())
+                .orElseThrow(() -> new EntityNotFoundException("Personnel not found with id: " + bulkRequestDto.getPersonnelId()));
+
+        Admin admin = adminRepository.findById(bulkRequestDto.getAdminId())
+                .orElseThrow(() -> new EntityNotFoundException("Admin not found with id: " + bulkRequestDto.getAdminId()));
+
+        List<Door> doors = doorRepository.findAllById(bulkRequestDto.getDoorIds());
+
+        if (doors.isEmpty()) {
+            throw new IllegalArgumentException("No valid doors found for the provided IDs");
+        }
+
+        List<PersonnelPermissionResponseDto> savedEntities = new ArrayList<>();
+
+        for (Door door : doors) {
+            // Eğer bu personel-kapı ilişkisi zaten varsa atla
+            if (existsByPersonnelAndDoor(personnel, door)) {
+                continue;
+            }
+
+            PersonnelPermissionRequestDto requestDto = new PersonnelPermissionRequestDto();
+            requestDto.setPersonnel(personnel);
+            requestDto.setDoor(door);
+            requestDto.setAdmin(admin);
+
+            PersonnelPermissionResponseDto savedEntity = save(requestDto);
+            savedEntities.add(savedEntity);
+        }
+
+        // Bir kerede toplu log ekle
+        if (!savedEntities.isEmpty()) {
+            authLogService.logBulkDoorPermissionGrant(admin, personnel, doors);
+        }
+
+        return savedEntities;
+    }
+
+    @Override
+    public void revokePermission(Long id) {
+        Optional<PersonnelPermissionResponseDto> permissionOpt = findById(id);
+
+        if (permissionOpt.isPresent()) {
+            PersonnelPermissionResponseDto permission = permissionOpt.get();
+
+            // Log oluşturmak için gerekli verileri alıyoruz
+            Admin admin = adminRepository.findById(permission.getAdmin().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Admin not found"));
+
+            Personnel personnel = personnelRepository.findById(permission.getPersonnel().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Personnel not found"));
+
+            Door door = doorRepository.findById(permission.getDoor().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Door not found"));
+
+            // İzni siliyoruz
+            deleteById(id);
+
+            // Silme işlemini logluyoruz
+            authLogService.logDoorPermissionRevoke(admin, personnel, door);
+        } else {
+            throw new EntityNotFoundException("PersonnelPermission with ID " + id + " not found");
+        }
+    }
+
+    @Override
+    @Transactional
+    public void revokeBulkPermissions(BulkDoorPermissionRequestDto bulkRequestDto) {
+        Personnel personnel = personnelRepository.findById(bulkRequestDto.getPersonnelId())
+                .orElseThrow(() -> new EntityNotFoundException("Personnel not found with id: " + bulkRequestDto.getPersonnelId()));
+
+        Admin admin = adminRepository.findById(bulkRequestDto.getAdminId())
+                .orElseThrow(() -> new EntityNotFoundException("Admin not found with id: " + bulkRequestDto.getAdminId()));
+
+        List<Door> doors = doorRepository.findAllById(bulkRequestDto.getDoorIds());
+
+        if (doors.isEmpty()) {
+            throw new IllegalArgumentException("No valid doors found for the provided IDs");
+        }
+
+        // Her bir kapı yetkisini kaldır
+        for (Door door : doors) {
+            deleteByPersonnelAndDoor(personnel, door);
+        }
+
+        // Toplu log kaydı oluştur
+        authLogService.logBulkDoorPermissionRevoke(admin, personnel, doors);
+    }
 }

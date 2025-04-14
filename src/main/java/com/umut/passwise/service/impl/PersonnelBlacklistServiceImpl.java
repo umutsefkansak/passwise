@@ -1,7 +1,10 @@
 package com.umut.passwise.service.impl;
 import com.umut.passwise.dto.requests.PersonnelBlacklistRequestDto;
 import com.umut.passwise.dto.responses.PersonnelBlacklistResponseDto;
+import com.umut.passwise.entities.Card;
 import com.umut.passwise.entities.Personnel;
+import com.umut.passwise.repository.PersonnelRepository;
+import com.umut.passwise.service.abstracts.IPersonnelService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import com.umut.passwise.entities.PersonnelBlacklist;
 import com.umut.passwise.repository.PersonnelBlacklistRepository;
 import com.umut.passwise.service.abstracts.IPersonnelBlacklistService;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +22,12 @@ import java.util.Optional;
 public class PersonnelBlacklistServiceImpl implements IPersonnelBlacklistService {
 
     private final PersonnelBlacklistRepository personnelBlacklistRepository;
+    private final PersonnelRepository personnelRepository;
 
     @Autowired
-    public PersonnelBlacklistServiceImpl(PersonnelBlacklistRepository personnelBlacklistRepository) {
+    public PersonnelBlacklistServiceImpl(PersonnelBlacklistRepository personnelBlacklistRepository, PersonnelRepository personnelRepository) {
         this.personnelBlacklistRepository = personnelBlacklistRepository;
+        this.personnelRepository = personnelRepository;
     }
 
     @Override
@@ -62,6 +68,20 @@ public class PersonnelBlacklistServiceImpl implements IPersonnelBlacklistService
 
         BeanUtils.copyProperties(personnelBlacklist, personnelBlacklistResponseDto);
 
+        //PERSONELİN ÇALIŞMA DURUMUNU PASİF YAP
+        /*Optional<Personnel> personnelOptional = personnelRepository.findById(personnelBlacklistRequestDto.getPersonnel().getId());
+        if (personnelOptional.isPresent()){
+            Personnel personnel = personnelOptional.get();
+            personnel.setActive(false);
+            personnelRepository.save(personnel);
+        }*/
+
+
+        //PERSONELİN ÇALIŞMA DURUMUNU FALSE YAP
+        setPersonnelActiveState(personnelBlacklistRequestDto.getPersonnel().getId(),false);
+
+
+
         return personnelBlacklistResponseDto;
     }
 
@@ -92,7 +112,39 @@ public class PersonnelBlacklistServiceImpl implements IPersonnelBlacklistService
 
     @Override
     public void deleteById(Long id) {
+
+        //KARA LİSTEDEN KALDIRILAN PERSONELİN ÇALIŞMA DURUMUNU TRUE YAP
+        Optional<PersonnelBlacklist> personnelBlacklistOptional = personnelBlacklistRepository.findById(id);
+        if(personnelBlacklistOptional.isPresent()){
+            PersonnelBlacklist personnelBlacklist = personnelBlacklistOptional.get();
+            setPersonnelActiveState(personnelBlacklist.getPersonnel().getId(),true);
+        }
+
+
         personnelBlacklistRepository.deleteById(id);
+
+
+        //PERSONNELİN ÇALIŞMA DURUMUNU TRUE YAP
+        Optional<Personnel> personnelOptional = personnelRepository.findById(id);
+        if (personnelOptional.isPresent()){
+            Personnel personnel = personnelOptional.get();
+            personnel.setActive(true);
+            personnelRepository.save(personnel);
+        }
+
+    }
+
+    @Override
+    public void setPersonnelActiveState(Long personnelId, boolean isActive) {
+        //PERSONELİN ÇALIŞMA DURUMUNU PASİF YAP
+        Optional<Personnel> personnelOptional = personnelRepository.findById(personnelId);
+        if (personnelOptional.isPresent()){
+            Personnel personnel = personnelOptional.get();
+            personnel.setActive(isActive);
+            personnelRepository.save(personnel);
+        }
+
+
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.umut.passwise.service.abstracts;
 import java.util.List;
 import java.util.Optional;
 
+import com.umut.passwise.dto.requests.BulkDoorPermissionRequestDto;
 import com.umut.passwise.dto.requests.PersonnelPermissionRequestDto;
 import com.umut.passwise.dto.responses.PersonnelPermissionResponseDto;
 import com.umut.passwise.entities.Door;
@@ -24,5 +25,10 @@ public interface IPersonnelPermissionService {
     boolean existsByPersonnelAndDoor(Personnel personnel, Door door);
 
     void deleteByPersonnelAndDoor(Personnel personnel, Door door);
+    // Yeni eklenen metodlar
+    PersonnelPermissionResponseDto grantPermission(PersonnelPermissionRequestDto dto);
+    List<PersonnelPermissionResponseDto> grantBulkPermissions(BulkDoorPermissionRequestDto bulkRequestDto);
+    void revokePermission(Long id);
+    void revokeBulkPermissions(BulkDoorPermissionRequestDto bulkRequestDto);
 
 }

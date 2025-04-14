@@ -20,4 +20,5 @@ public interface IPersonnelBlacklistService {
 
     boolean existsById(Long id);
     boolean existsByPersonnel(Personnel personnel);
+    void setPersonnelActiveState(Long personnelId, boolean isActive);
 }
