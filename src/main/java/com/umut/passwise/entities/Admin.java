@@ -30,6 +30,10 @@ public class Admin implements UserDetails {
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AuthLog> logs = new ArrayList<>();
 
+    // Giriş/çıkış aktiviteleri için yeni log listesi
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LoginActivityLog> loginActivities = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -101,6 +105,15 @@ public class Admin implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public List<LoginActivityLog> getLoginActivities() {
+        return loginActivities;
+    }
+
+    public Admin setLoginActivities(List<LoginActivityLog> loginActivities) {
+        this.loginActivities = loginActivities;
+        return this;
     }
 
 

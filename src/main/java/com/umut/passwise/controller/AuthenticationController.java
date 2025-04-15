@@ -1,45 +1,61 @@
 package com.umut.passwise.controller;
 
-
 import com.umut.passwise.dto.requests.AdminRequestDto;
-import com.umut.passwise.dto.responses.AdminResponseDto;
+import com.umut.passwise.dto.requests.LoginRequestDto;
+import com.umut.passwise.dto.requests.TokenRefreshRequestDto;
 import com.umut.passwise.dto.responses.LoginResponseDto;
 import com.umut.passwise.entities.Admin;
 import com.umut.passwise.service.security.AuthenticationService;
-import com.umut.passwise.service.security.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
-    private final JwtService jwtService;
-
     private final AuthenticationService authenticationService;
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
-        this.jwtService = jwtService;
+    public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
     @PostMapping("/signup")
     public ResponseEntity<Admin> register(@RequestBody AdminRequestDto adminRequestDto) {
         Admin registeredAdmin = authenticationService.signup(adminRequestDto);
-
         return ResponseEntity.ok(registeredAdmin);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> authenticate(@RequestBody AdminRequestDto adminRequestDto) {
-        Admin authenticatedAdmin = authenticationService.authenticate(adminRequestDto);
-
-        String jwtToken = jwtService.generateToken(authenticatedAdmin);
-
-        LoginResponseDto loginResponse = new LoginResponseDto().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
-
+    public ResponseEntity<LoginResponseDto> login(
+            @RequestBody LoginRequestDto loginRequestDto,
+            HttpServletRequest request
+    ) {
+        LoginResponseDto loginResponse = authenticationService.login(loginRequestDto, request);
         return ResponseEntity.ok(loginResponse);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponseDto> refreshToken(@RequestBody TokenRefreshRequestDto request) {
+        LoginResponseDto response = authenticationService.refreshToken(request.getRefreshToken());
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(
+            HttpServletRequest request,
+            Authentication authentication
+    ) {
+        String authHeader = request.getHeader("Authorization");
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String jwt = authHeader.substring(7);
+            Admin admin = (Admin) authentication.getPrincipal();
+
+            authenticationService.logout(jwt, admin, request);
+            return ResponseEntity.ok("Basariyla cikis yapildi");
+        }
+
+        return ResponseEntity.badRequest().body("Gecerli bir oturum bulunamadi");
     }
 }
