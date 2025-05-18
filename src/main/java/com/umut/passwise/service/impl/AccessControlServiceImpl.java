@@ -70,6 +70,7 @@ public class AccessControlServiceImpl implements IAccessControlService {
     @Transactional
     public AccessLogResponseDto processCardAccess(CardAccessRequestDto requestDto) {
         String cardNumber = requestDto.getCardNumber();
+        System.out.println("------------card nı:"+cardNumber);
         Long doorId = requestDto.getDoorId();
 
         // Varsayılan olarak "KART" erişim yöntemini kullan

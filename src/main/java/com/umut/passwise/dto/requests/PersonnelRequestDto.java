@@ -31,6 +31,16 @@ public class PersonnelRequestDto {
     private Timestamp updatedAt;
     // Yeni fotoğraf dosya adı alanı
     private String photoFileName;
+    // Frontend'den gelen kart numarası için yeni alan
+    private String contactlessCardNumber;
+
+    public String getContactlessCardNumber() {
+        return contactlessCardNumber;
+    }
+
+    public void setContactlessCardNumber(String contactlessCardNumber) {
+        this.contactlessCardNumber = contactlessCardNumber;
+    }
 
     public String getName() {
         return name;
@@ -182,5 +192,31 @@ public class PersonnelRequestDto {
 
     public void setPhotoFileName(String photoFileName) {
         this.photoFileName = photoFileName;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonnelRequestDto{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", tcNum='" + tcNum + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", isActive=" + isActive +
+                ", hireDate=" + hireDate +
+                ", personType=" + personType +
+                ", department=" + department +
+                ", team=" + team +
+                ", title=" + title +
+                ", card=" + card +
+                ", doorPermissions=" + doorPermissions +
+                ", permissionGroupMemberships=" + permissionGroupMemberships +
+                ", createdByAdmin=" + createdByAdmin +
+                ", lastModifiedByAdmin=" + lastModifiedByAdmin +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", photoFileName='" + photoFileName + '\'' +
+                ", contactlessCardNumber='" + contactlessCardNumber + '\'' +
+                '}';
     }
 }

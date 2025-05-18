@@ -98,4 +98,17 @@ public class TeamServiceImpl implements ITeamService {
     public boolean existsById(Long id) {
         return teamRepository.existsById(id);
     }
+
+    @Override
+    public List<TeamResponseDto> findByDepartmentId(Long departmentId) {
+        List<Team> teams = teamRepository.findByDepartmentId(departmentId);
+        List<TeamResponseDto> dtoList = new ArrayList<>();
+
+        for(Team team: teams){
+            TeamResponseDto dto = new TeamResponseDto();
+            BeanUtils.copyProperties(team, dto);
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
 }

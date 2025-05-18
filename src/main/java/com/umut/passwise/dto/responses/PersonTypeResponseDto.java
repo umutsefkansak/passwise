@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class PersonTypeResponseDto {
 
+    private Long id;
     private String name;
     private String description;
     private Set<Personnel> personnels = new HashSet<>();
@@ -21,6 +22,14 @@ public class PersonTypeResponseDto {
     private Admin lastModifiedByAdmin;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

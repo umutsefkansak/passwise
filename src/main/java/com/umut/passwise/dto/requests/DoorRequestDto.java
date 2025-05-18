@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DoorRequestDto {
+
     private String name;
     private String location;
     private Boolean isMainDoor = false;

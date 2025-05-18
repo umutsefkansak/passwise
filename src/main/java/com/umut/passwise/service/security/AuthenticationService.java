@@ -2,6 +2,8 @@ package com.umut.passwise.service.security;
 
 import com.umut.passwise.dto.requests.AdminRequestDto;
 import com.umut.passwise.dto.requests.LoginRequestDto;
+import com.umut.passwise.dto.requests.UpdateAdminProfileRequestDto;
+import com.umut.passwise.dto.responses.AdminResponseDto;
 import com.umut.passwise.dto.responses.LoginResponseDto;
 import com.umut.passwise.entities.Admin;
 import com.umut.passwise.entities.LoginActivityLog;
@@ -139,5 +141,61 @@ public class AuthenticationService {
             return request.getRemoteAddr();
         }
         return xfHeader.split(",")[0];
+    }
+
+    public boolean changePassword(String username, String currentPassword, String newPassword) {
+        Admin admin = adminRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı"));
+
+        // Mevcut şifreyi kontrol et
+        if (!passwordEncoder.matches(currentPassword, admin.getPassword())) {
+            return false;
+        }
+
+        // Yeni şifreyi hashle ve kaydet
+        admin.setPassword(passwordEncoder.encode(newPassword));
+        adminRepository.save(admin);
+
+        return true;
+    }
+
+    public boolean isUsernameAvailable(String username, Long currentUserId) {
+        return adminRepository.findByUsername(username)
+                .map(existingAdmin -> existingAdmin.getId().equals(currentUserId))
+                .orElse(true);
+    }
+
+    public AdminResponseDto updateAdminProfile(UpdateAdminProfileRequestDto requestDto) {
+        Admin admin = adminRepository.findById(requestDto.getId())
+                .orElseThrow(() -> new RuntimeException("Admin bulunamadı"));
+        
+        // Kullanıcı adı değişip değişmediğini kontrol et
+        boolean isUsernameChanged = !admin.getUsername().equals(requestDto.getUsername());
+        
+        // Eğer kullanıcı adı değişiyorsa, yeni kullanıcı adının kullanılabilir olup olmadığını kontrol et
+        if (isUsernameChanged) {
+            boolean isAvailable = isUsernameAvailable(requestDto.getUsername(), admin.getId());
+            if (!isAvailable) {
+                throw new RuntimeException("Bu kullanıcı adı zaten kullanımda. Lütfen başka bir kullanıcı adı seçin.");
+            }
+        }
+        
+        // Şifre ve diğer hassas bilgileri koruyarak sadece profil bilgilerini güncelle
+        String currentPassword = admin.getPassword(); // Mevcut şifreyi koru
+        admin.setName(requestDto.getName());
+        admin.setSurname(requestDto.getSurname());
+        admin.setUsername(requestDto.getUsername());
+        admin.setPassword(currentPassword); // Şifreyi aynen bırak
+        
+        // Güncellenmiş admin bilgilerini kaydet
+        Admin updatedAdmin = adminRepository.save(admin);
+        
+        // Response DTO oluştur
+        AdminResponseDto responseDto = new AdminResponseDto();
+        responseDto.setId(updatedAdmin.getId());
+        responseDto.setName(updatedAdmin.getName());
+        responseDto.setSurname(updatedAdmin.getSurname());
+        
+        return responseDto;
     }
 }

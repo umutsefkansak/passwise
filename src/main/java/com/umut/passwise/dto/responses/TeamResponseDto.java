@@ -9,9 +9,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TeamResponseDto {
 
+    private Long id;
+
     private String name;
     private String description;
     private Department department;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

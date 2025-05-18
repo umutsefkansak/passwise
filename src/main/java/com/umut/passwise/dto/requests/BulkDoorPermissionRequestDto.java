@@ -4,9 +4,20 @@ package com.umut.passwise.dto.requests;
 import java.util.List;
 
 public class BulkDoorPermissionRequestDto {
+
+    private Long id;
+
     private Long personnelId;
     private List<Long> doorIds;
     private Long adminId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getPersonnelId() {
         return personnelId;

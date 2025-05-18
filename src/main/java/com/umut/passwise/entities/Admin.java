@@ -1,5 +1,6 @@
 package com.umut.passwise.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +33,7 @@ public class Admin implements UserDetails {
 
     // Giriş/çıkış aktiviteleri için yeni log listesi
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<LoginActivityLog> loginActivities = new ArrayList<>();
 
 
@@ -62,7 +64,6 @@ public class Admin implements UserDetails {
         return this;
 
     }
-
 
     @Override
     public boolean isAccountNonExpired() {

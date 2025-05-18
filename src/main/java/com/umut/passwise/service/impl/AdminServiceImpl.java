@@ -90,6 +90,18 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     @Override
+    public Optional<AdminResponseDto> findByUsername(String username) {
+        // Admin repository'de username ile sorgulama yapan bir metot gerekecek
+        Optional<Admin> admin = adminRepository.findByUsername(username);
+        if(admin.isPresent()){
+            AdminResponseDto dto = new AdminResponseDto();
+            BeanUtils.copyProperties(admin.get(), dto);  // admin.get() ile veriye ulaşıyoruz
+            return Optional.of(dto);
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public void deleteById(Long id) {
         adminRepository.deleteById(id);
     }

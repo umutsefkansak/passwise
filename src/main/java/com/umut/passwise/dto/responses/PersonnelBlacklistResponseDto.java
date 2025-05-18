@@ -11,9 +11,20 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PersonnelBlacklistResponseDto {
+
+    private Long id;
     private Personnel personnel;
     private PersonnelBlacklistReason reason;
     private Timestamp dateAdded;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Personnel getPersonnel() {
         return personnel;

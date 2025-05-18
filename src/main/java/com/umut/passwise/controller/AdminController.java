@@ -47,6 +47,8 @@ public class AdminController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+
+
         // Entity'yi bul ve güncelle
         AdminResponseDto updatedEntity = adminService.update(id, adminRequestDto);
 
@@ -63,4 +65,12 @@ public class AdminController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/by-username/{username}")
+    public ResponseEntity<AdminResponseDto> getEntityByUsername(@PathVariable("username") String username) {
+        Optional<AdminResponseDto> entity = adminService.findByUsername(username);
+        return entity.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+
 }

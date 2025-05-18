@@ -56,6 +56,7 @@ public class CardController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteEntity(@PathVariable("id") Long id) {
+        System.out.println("GElen id:"+id);
         try {
             cardService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

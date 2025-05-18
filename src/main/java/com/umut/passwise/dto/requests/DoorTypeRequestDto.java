@@ -13,6 +13,7 @@ public class DoorTypeRequestDto {
 
 
     private String name;
+    //SADECE ARALARINDAKİ İLİŞKİ İÇİN EKLENDİ
     private List<Door> doors;
 
     public String getName() {

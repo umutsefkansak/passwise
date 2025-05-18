@@ -63,4 +63,10 @@ public class TeamController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/department/{departmentId}")
+    public ResponseEntity<List<TeamResponseDto>> getTeamsByDepartmentId(@PathVariable("departmentId") Long departmentId) {
+        List<TeamResponseDto> teams = teamService.findByDepartmentId(departmentId);
+        return new ResponseEntity<>(teams, HttpStatus.OK);
+    }
 }

@@ -68,14 +68,6 @@ public class PersonnelBlacklistServiceImpl implements IPersonnelBlacklistService
 
         BeanUtils.copyProperties(personnelBlacklist, personnelBlacklistResponseDto);
 
-        //PERSONELİN ÇALIŞMA DURUMUNU PASİF YAP
-        /*Optional<Personnel> personnelOptional = personnelRepository.findById(personnelBlacklistRequestDto.getPersonnel().getId());
-        if (personnelOptional.isPresent()){
-            Personnel personnel = personnelOptional.get();
-            personnel.setActive(false);
-            personnelRepository.save(personnel);
-        }*/
-
 
         //PERSONELİN ÇALIŞMA DURUMUNU FALSE YAP
         setPersonnelActiveState(personnelBlacklistRequestDto.getPersonnel().getId(),false);

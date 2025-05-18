@@ -60,6 +60,7 @@ public class PersonnelController {
 
     @PostMapping
     public ResponseEntity<PersonnelResponseDto> createEntity(@RequestBody PersonnelRequestDto personnelRequestDto) {
+        System.out.println(personnelRequestDto);
         PersonnelResponseDto savedEntity = personnelService.save(personnelRequestDto);
         return new ResponseEntity<>(savedEntity, HttpStatus.CREATED);
     }

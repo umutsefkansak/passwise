@@ -148,7 +148,7 @@ public class AuthLogServiceImpl implements IAuthLogService {
 
         // Açıklama oluştur
         String description = personnel.getName().toUpperCase() + " " + personnel.getSurname().toUpperCase() +
-                " personeline " + door.getName() + " kapısı yetkisi "+admin.getName().toUpperCase()+" tarafından verildi";
+                " personeline " + door.getName() + " kapısı yetkisi "+admin.getUsername().toUpperCase()+" tarafından verildi";
         log.setDescription(description);
 
         authLogRepository.save(log);
@@ -187,7 +187,7 @@ public class AuthLogServiceImpl implements IAuthLogService {
 
         // Açıklama oluştur
         String description = personnel.getName().toUpperCase() + " " + personnel.getSurname().toUpperCase() +
-                " personeline " + permissionGroup.getName() + " yetki grubu "+admin.getName().toUpperCase()+" tarafından verildi";
+                " personeline " + permissionGroup.getName() + " yetki grubu "+admin.getUsername().toUpperCase()+" tarafından verildi";
         log.setDescription(description);
 
         authLogRepository.save(log);
@@ -210,7 +210,7 @@ public class AuthLogServiceImpl implements IAuthLogService {
                 .collect(Collectors.joining(", "));
 
         String description = personnel.getName() + " " + personnel.getSurname() +
-                " personeline şu kapılar için "+admin.getName().toUpperCase()+" tarafından yetki verildi: " + doorNames;
+                " personeline şu kapılar için "+admin.getUsername().toUpperCase()+" tarafından yetki verildi: " + doorNames;
         log.setDescription(description);
 
         //authLogRepository.save(log);
@@ -236,7 +236,7 @@ public class AuthLogServiceImpl implements IAuthLogService {
                 .collect(Collectors.joining(", "));
 
         String description = personnel.getName() + " " + personnel.getSurname() +
-                " personeline şu yetki grupları için "+admin.getName().toUpperCase()+" tarafından verildi: " + groupNames;
+                " personeline şu yetki grupları için "+admin.getUsername().toUpperCase()+" tarafından verildi: " + groupNames;
         log.setDescription(description);
 
         //authLogRepository.save(log);
@@ -317,7 +317,7 @@ public class AuthLogServiceImpl implements IAuthLogService {
 
         // Açıklama oluştur
         String description = personnel.getName().toUpperCase() + " " + personnel.getSurname().toUpperCase() +
-                " personelinin " + door.getName() + " kapısı yetkisi " + admin.getName().toUpperCase() + " tarafından kaldırıldı";
+                " personelinin " + door.getName() + " kapısı yetkisi " + admin.getUsername().toUpperCase() + " tarafından kaldırıldı";
         log.setDescription(description);
 
         authLogRepository.save(log);
@@ -354,7 +354,7 @@ public class AuthLogServiceImpl implements IAuthLogService {
 
         // Açıklama oluştur
         String description = personnel.getName().toUpperCase() + " " + personnel.getSurname().toUpperCase() +
-                " personelinin " + permissionGroup.getName() + " yetki grubu " + admin.getName().toUpperCase() + " tarafından kaldırıldı";
+                " personelinin " + permissionGroup.getName() + " yetki grubu " + admin.getUsername().toUpperCase() + " tarafından kaldırıldı";
         log.setDescription(description);
 
         authLogRepository.save(log);
@@ -377,7 +377,7 @@ public class AuthLogServiceImpl implements IAuthLogService {
                 .collect(Collectors.joining(", "));
 
         String description = personnel.getName().toUpperCase() + " " + personnel.getSurname().toUpperCase() +
-                " personelinin şu kapılar için " + admin.getName().toUpperCase() + " tarafından yetkisi kaldırıldı: " + doorNames;
+                " personelinin şu kapılar için " + admin.getUsername().toUpperCase() + " tarafından yetkisi kaldırıldı: " + doorNames;
         log.setDescription(description);
 
         //authLogRepository.save(log);
@@ -403,7 +403,7 @@ public class AuthLogServiceImpl implements IAuthLogService {
                 .collect(Collectors.joining(", "));
 
         String description = personnel.getName().toUpperCase() + " " + personnel.getSurname().toUpperCase() +
-                " personelinin şu yetki grupları " + admin.getName().toUpperCase() + " tarafından kaldırıldı: " + groupNames;
+                " personelinin şu yetki grupları " + admin.getUsername().toUpperCase() + " tarafından kaldırıldı: " + groupNames;
         log.setDescription(description);
 
         //authLogRepository.save(log);

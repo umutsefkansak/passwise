@@ -9,9 +9,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PermissionResponseDto {
+
+    private Long id;
     private Door door;
     private PermissionGroup permissionGroup;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Door getDoor() {
         return door;

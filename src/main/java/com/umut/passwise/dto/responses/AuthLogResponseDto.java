@@ -9,6 +9,8 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthLogResponseDto {
+
+    private Long id;
     private Admin admin;
     private Personnel personnel;
     private Door door;
@@ -19,6 +21,14 @@ public class AuthLogResponseDto {
 
     // Eklenen yeni alan: İşlem bir yetki grubu üzerinden mi yapıldı
     private Boolean isGroupPermission = false;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Admin getAdmin() {
         return admin;

@@ -12,10 +12,20 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PersonnelPermissionGroupResponseDto {
+
+    private Long id;
     private Personnel personnel;
     private PermissionGroup permissionGroup;
     private Admin grantedByAdmin;
     private Timestamp grantedAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Personnel getPersonnel() {
         return personnel;

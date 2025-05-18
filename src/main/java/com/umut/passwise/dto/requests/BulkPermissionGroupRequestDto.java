@@ -4,9 +4,19 @@ package com.umut.passwise.dto.requests;
 import java.util.List;
 
 public class BulkPermissionGroupRequestDto {
+
+    private Long id;
     private Long personnelId;
     private List<Long> permissionGroupIds;
     private Long adminId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getPersonnelId() {
         return personnelId;

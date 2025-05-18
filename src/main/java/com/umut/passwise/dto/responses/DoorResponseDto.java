@@ -10,11 +10,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DoorResponseDto {
+
+    private Long id;
     private String name;
     private String location;
     private Boolean isMainDoor = false;
     private DoorType doorType;
     private AccessDirection accessDirection;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

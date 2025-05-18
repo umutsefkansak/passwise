@@ -18,4 +18,5 @@ public interface IAdminService {
     void deleteById(Long id);
 
     boolean existsById(Long id);
+    Optional<AdminResponseDto> findByUsername(String username);
 }

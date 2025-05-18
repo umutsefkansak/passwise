@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AlertResponseDto {
+    private Long id;
     private Personnel personnel;
     private Door door;
     private AlertType alertType;
@@ -20,6 +21,14 @@ public class AlertResponseDto {
     private Admin resolvedByAdmin;
     private Timestamp resolvedAt;
     private Timestamp createdAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Personnel getPersonnel() {
         return personnel;

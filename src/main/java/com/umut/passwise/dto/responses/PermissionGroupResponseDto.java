@@ -10,8 +10,18 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PermissionGroupResponseDto {
+
+    private Long id;
     private String name;
     private Set<Permission> permissions;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

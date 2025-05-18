@@ -13,6 +13,7 @@ import java.util.List;
 public class DepartmentRequestDto {
 
     private String name;
+    //Sadece aralarındaki ilişki için eklendi
     private List<Personnel> personels;
 
     public String getName() {

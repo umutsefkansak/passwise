@@ -28,7 +28,6 @@ public class PersonnelResponseDto {
     private Admin lastModifiedByAdmin;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    // Yeni fotoğraf dosya adı alanı
     private String photoFileName;
 
     public Long getId() {

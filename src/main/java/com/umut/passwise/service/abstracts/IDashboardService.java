@@ -20,7 +20,7 @@ public interface IDashboardService {
      * Son 7 günlük erişim trendini getirir
      * @return Günlük erişim trendi listesi
      */
-    List<AccessTrendDto> getAccessTrend();
+    List<AccessTrendDto> getAccessTrend(int days);
 
     /**
      * Kapılara göre kullanım istatistiklerini getirir

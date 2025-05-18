@@ -1,5 +1,5 @@
+// WebConfig sınıfını tamamen kaldırabilirsiniz ve aşağıdaki SecurityConfiguration'ı kullanabilirsiniz
 package com.umut.passwise.config;
-
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -34,8 +34,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/access/**").permitAll()
+                        .requestMatchers("/api/doors/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -50,14 +53,26 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(List.of("*"));
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        // Frontend uygulamanızın actual URL'i (React)
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+
+        // Tüm HTTP metodlarına izin verin
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // Önemli: Kimlik doğrulama header'larını ekleyin
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
+
+        // Önemli: Tarayıcının bu header'ları görmesine izin verin
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+
+        // Kimlik bilgilerini paylaşın (cookie, auth headers)
+        configuration.setAllowCredentials(true);
+
+        // OPTIONS öncesi cevap için önbellek süresi (saniye)
+        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-        source.registerCorsConfiguration("/**",configuration);
-
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }

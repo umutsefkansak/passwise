@@ -14,4 +14,22 @@ public interface PersonnelRepository extends JpaRepository<Personnel,Long> {
     Personnel findByCardId(Long id);
 
 
+
+
+    // Aktif personelleri getir
+    List<Personnel> findByIsActiveTrue();
+
+    // Aktif olmayan personelleri getir
+    List<Personnel> findByIsActiveFalse();
+
+    // Belirli bir personel tipine sahip aktif personel sayısı
+    int countByIsActiveTrueAndPersonTypeName(String personTypeName);
+
+    // Belirli bir personel tipi dışındaki aktif personel sayısı
+    int countByIsActiveTrueAndPersonTypeNameNot(String personTypeName);
+
+    // Varlık kontrolü
+    boolean existsById(Long id);
+
+
 }

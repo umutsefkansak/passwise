@@ -12,13 +12,21 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class CardResponseDto {
 
-
+    private Long id;
     private String cardNumber;
     private Boolean isActive;
     private Personnel personel;
     private Timestamp registeredAt;
     private Timestamp deactivatedAt;
     private CardType cardType;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCardNumber() {
         return cardNumber;

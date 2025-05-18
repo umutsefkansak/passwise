@@ -1,5 +1,6 @@
 package com.umut.passwise.dto.responses;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.umut.passwise.entities.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -100,4 +101,6 @@ public class AccessLogResponseDto {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 }

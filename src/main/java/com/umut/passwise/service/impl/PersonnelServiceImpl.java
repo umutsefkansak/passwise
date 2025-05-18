@@ -2,7 +2,9 @@ package com.umut.passwise.service.impl;
 
 import com.umut.passwise.dto.requests.PersonnelRequestDto;
 import com.umut.passwise.dto.responses.PersonnelResponseDto;
+import com.umut.passwise.entities.Card;
 import com.umut.passwise.entities.Personnel;
+import com.umut.passwise.repository.CardRepository;
 import com.umut.passwise.repository.PersonnelRepository;
 import com.umut.passwise.service.abstracts.IFileStorageService;
 import com.umut.passwise.service.abstracts.IPersonnelService;
@@ -22,11 +24,13 @@ public class PersonnelServiceImpl implements IPersonnelService {
 
     private final PersonnelRepository personnelRepository;
     private final IFileStorageService fileStorageService;
+    private final CardRepository cardRepository;
 
     @Autowired
-    public PersonnelServiceImpl(PersonnelRepository personnelRepository, IFileStorageService fileStorageService) {
+    public PersonnelServiceImpl(PersonnelRepository personnelRepository, IFileStorageService fileStorageService, CardRepository cardRepository) {
         this.personnelRepository = personnelRepository;
         this.fileStorageService = fileStorageService;
+        this.cardRepository = cardRepository;
     }
 
     @Override
@@ -96,32 +100,81 @@ public class PersonnelServiceImpl implements IPersonnelService {
         return responseDto;
     }
 
-    @Override
-    public PersonnelResponseDto update(Long id, PersonnelRequestDto personnelRequestDto) {
-        Optional<Personnel> personnelOptional = personnelRepository.findById(id);
+//    @Override
+//    public PersonnelResponseDto update(Long id, PersonnelRequestDto personnelRequestDto) {
+//        Optional<Personnel> personnelOptional = personnelRepository.findById(id);
+//
+//        if (personnelOptional.isPresent()) {
+//            Personnel personnel = personnelOptional.get();
+//
+//            // Eski fotoğraf adını sakla (silme işlemi için)
+//            String oldPhotoFileName = personnel.getPhotoFileName();
+//
+//            // Yeni değerleri güncelle
+//            BeanUtils.copyProperties(personnelRequestDto, personnel);
+//            personnel.setId(id); // ID'nin korunduğundan emin ol
+//
+//            // Güncellenmiş personeli kaydet
+//            Personnel updatedPersonnel = personnelRepository.save(personnel);
+//
+//            // Response DTO oluştur
+//            PersonnelResponseDto responseDto = new PersonnelResponseDto();
+//            BeanUtils.copyProperties(updatedPersonnel, responseDto);
+//
+//            return responseDto;
+//        } else {
+//            throw new EntityNotFoundException("Personnel with ID " + id + " not found");
+//        }
+//    }
+@Override
+public PersonnelResponseDto update(Long id, PersonnelRequestDto personnelRequestDto) {
+    Optional<Personnel> personnelOptional = personnelRepository.findById(id);
 
-        if (personnelOptional.isPresent()) {
-            Personnel personnel = personnelOptional.get();
+    if (personnelOptional.isPresent()) {
+        Personnel personnel = personnelOptional.get();
 
-            // Eski fotoğraf adını sakla (silme işlemi için)
-            String oldPhotoFileName = personnel.getPhotoFileName();
+        // Eski fotoğraf adını sakla (silme işlemi için)
+        String oldPhotoFileName = personnel.getPhotoFileName();
 
-            // Yeni değerleri güncelle
-            BeanUtils.copyProperties(personnelRequestDto, personnel);
-            personnel.setId(id); // ID'nin korunduğundan emin ol
+        System.out.println("---------------gelen temassiz no"+personnelRequestDto.getContactlessCardNumber());
+        // Kart numarası işleme
+        if (personnelRequestDto.getContactlessCardNumber() != null && !personnelRequestDto.getContactlessCardNumber().isEmpty()) {
+            // Kart numarasını kullanarak kart arayın
+            Optional<Card> cardOptional = cardRepository.findByCardNumber(personnelRequestDto.getContactlessCardNumber());
 
-            // Güncellenmiş personeli kaydet
-            Personnel updatedPersonnel = personnelRepository.save(personnel);
+            if (cardOptional.isPresent()) {
+                Card card = cardOptional.get();
+                System.out.println("---------------------------------------Kart bulundu id:"+card.getId());
+                // Kartı personele atayın
+                personnelRequestDto.setCard(card);
+                // Kartın personel referansını da güncelle
+                card.setPersonel(personnel);
+                cardRepository.save(card);
 
-            // Response DTO oluştur
-            PersonnelResponseDto responseDto = new PersonnelResponseDto();
-            BeanUtils.copyProperties(updatedPersonnel, responseDto);
-
-            return responseDto;
-        } else {
-            throw new EntityNotFoundException("Personnel with ID " + id + " not found");
+            } else {
+                // Kart bulunamadıysa, yeni bir kart oluşturun (isteğe bağlı)
+                // Bu kısmı iş mantığınıza göre düzenleyebilirsiniz
+                throw new EntityNotFoundException("Card with number " + personnelRequestDto.getContactlessCardNumber() + " not found");
+            }
         }
+
+
+        // Yeni değerleri güncelle - contactlessCardNumber hariç diğer alanları kopyala
+        BeanUtils.copyProperties(personnelRequestDto, personnel, "contactlessCardNumber");
+        personnel.setId(id); // ID'nin korunduğundan emin ol
+
+        // Güncellenmiş personeli kaydet
+        Personnel updatedPersonnel = personnelRepository.save(personnel);
+
+        // Response DTO oluştur
+        PersonnelResponseDto responseDto = new PersonnelResponseDto();
+        BeanUtils.copyProperties(updatedPersonnel, responseDto);
+
+        return responseDto;
+    } else {
+        throw new EntityNotFoundException("Personnel with ID " + id + " not found");
     }
+}
 
     @Override
     public void deleteById(Long id) {

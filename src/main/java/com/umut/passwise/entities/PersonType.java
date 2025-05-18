@@ -1,6 +1,7 @@
 // Person Type Entity (Personel türleri için) KADROLU-TAŞERON-MÜŞTERİ-ZİYARETÇİ VS.
 package com.umut.passwise.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,6 +24,7 @@ public class PersonType {
     private String description;
 
     @OneToMany(mappedBy = "personType")
+    @JsonIgnore
     private Set<Personnel> personnels = new HashSet<>();
 
     @ManyToOne
