@@ -1,0 +1,140 @@
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-clock {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.current-time {
+    font-size: 14px;
+    color: #495057;
+}
+
+/* Header Notifications */
+.header-notifications {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 15px;
+    gap: 10px;
+}
+
+/* User Dropdown Styles */
+.header-user {
+    position: relative;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.user-info:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #f0f2f5;
+    color: #3498db;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 220px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    z-index: 1000;
+    margin-top: 10px;
+}
+
+.user-dropdown-header {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.user-dropdown-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f0f2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3498db;
+}
+
+.user-dropdown-info h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.user-dropdown-menu {
+    padding: 8px;
+}
+
+.user-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 14px;
+}
+
+.user-dropdown-item:hover {
+    background-color: #f0f2f5;
+}
+
+.logout-button {
+    color: #e74c3c;
+    margin-top: 5px;
+}
+
+.logout-button:hover {
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #f0f2f5;
+    margin: 5px 0;
+}
+
+/* Diğer header stilleri buraya eklenebilir */

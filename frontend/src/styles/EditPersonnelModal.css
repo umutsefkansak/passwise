@@ -1,0 +1,904 @@
+/* Modal arkaplanı */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+/* Personel düzenleme modalı */
+.edit-personnel-modal {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Modal başlığı */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #eaeaea;
+    background-color: #f8f9fa;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.close-button:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+/* Modal içeriği */
+.modal-content {
+    padding: 1.5rem;
+    overflow-y: auto;
+    max-height: calc(90vh - 130px);
+}
+
+/* Form düzenini iyileştiren stiller */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.form-section {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-section h3 {
+    font-size: 1rem;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eaeaea;
+    color: #444;
+    font-weight: 600;
+}
+
+/* Form elemanları */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    color: #333;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="date"]:focus,
+.form-group select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    outline: none;
+}
+
+.form-group input[type="text"]::placeholder,
+.form-group input[type="date"]::placeholder,
+.form-group select::placeholder {
+    color: #aaa;
+}
+
+.form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    padding-right: 2.5rem;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 0;
+    font-weight: normal;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+/* Yetkiler bölümü */
+.permissions-section {
+    margin-top: 1.5rem;
+}
+
+.permissions-section h3 {
+    font-size: 1rem;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eaeaea;
+    color: #444;
+    font-weight: 600;
+}
+
+.permission-block {
+    margin-bottom: 1.5rem;
+    border: 1px solid #eaeaea;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.permission-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.permission-header h4 {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #555;
+    font-weight: 600;
+}
+
+.add-permission-button {
+    background-color: #4a90e2;
+    border: none;
+    padding: 0.35rem 0.75rem;
+    color: white;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 500;
+}
+
+.add-permission-button:hover {
+    background-color: #357bd8;
+}
+
+.add-permission-button:disabled {
+    background-color: #a0c5f2;
+    cursor: not-allowed;
+}
+
+/* Yetki öğeleri listesi */
+.permission-items {
+    padding: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-height: 50px;
+    background-color: #fafafa;
+}
+
+.permission-item {
+    background-color: #eef5ff;
+    border: 1px solid #d0e1f9;
+    border-radius: 4px;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+    color: #4a6fa5;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.permission-item:hover {
+    background-color: #e3f0ff;
+}
+
+.no-permissions {
+    font-size: 0.75rem;
+    color: #999;
+    padding: 0.5rem 0;
+    font-style: italic;
+    text-align: center;
+    width: 100%;
+}
+
+/* Form aksiyon butonları */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eaeaea;
+}
+
+.cancel-button, .save-button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.cancel-button {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #666;
+}
+
+.cancel-button:hover {
+    background-color: #f1f1f1;
+}
+
+.save-button {
+    background-color: #4caf50;
+    border: 1px solid #43a047;
+    color: white;
+}
+
+.save-button:hover {
+    background-color: #43a047;
+}
+
+.save-button:disabled {
+    background-color: #a5d6a7;
+    border-color: #a5d6a7;
+    cursor: not-allowed;
+}
+
+/* Hata mesajı */
+.error-message {
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
+    border-radius: 4px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    color: #c62828;
+    font-size: 0.875rem;
+}
+
+/* Yetki transfer modalı */
+.permission-transfer-modal {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1100;
+}
+
+.transfer-container {
+    display: flex;
+    padding: 1.5rem;
+    gap: 1rem;
+    height: 400px;
+}
+
+.transfer-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eaeaea;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.transfer-panel h3 {
+    font-size: 0.875rem;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eaeaea;
+    color: #555;
+    font-weight: 600;
+}
+
+/* Panel eylem alanı (arama ve tümünü seç) */
+.panel-actions {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem;
+    background-color: #fafafa;
+    border-bottom: 1px solid #eaeaea;
+    gap: 0.5rem;
+}
+
+/* Arama kutusu stili */
+.search-box {
+    position: relative;
+    width: 100%;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    background-color: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-box input:focus {
+    border-color: #bbdefb;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.search-box input::placeholder {
+    color: #aaa;
+}
+
+/* Tümünü seç butonu stili */
+.select-all-btn {
+    padding: 0.4rem 0.75rem;
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.select-all-btn:hover {
+    background-color: #e3f2fd;
+    border-color: #bbdefb;
+    color: #1976d2;
+}
+
+.select-all-btn.active {
+    background-color: #e3f2fd;
+    border-color: #bbdefb;
+    color: #1976d2;
+}
+
+.select-all-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
+    color: #aaa;
+}
+
+.items-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background-color: #fafafa;
+}
+
+.item {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+    color: #333;
+    border: 1px solid transparent;
+}
+
+.item:hover {
+    background-color: #f0f7ff;
+}
+
+.item.selected {
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+}
+
+.no-items {
+    padding: 1rem;
+    text-align: center;
+    color: #999;
+    font-size: 0.875rem;
+    font-style: italic;
+}
+
+.transfer-controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 0.5rem;
+}
+
+.transfer-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #555;
+}
+
+.transfer-button:hover {
+    background-color: #e8e8e8;
+    color: #333;
+    border-color: #ccc;
+}
+
+.transfer-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #eaeaea;
+    background-color: #f8f9fa;
+    gap: 1rem;
+}
+
+.modal-footer .cancel-button,
+.modal-footer .save-button {
+    padding: 0.5rem 1.25rem;
+}
+/* Animasyonlar */
+.edit-personnel-modal, .permission-transfer-modal {
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Kaydırma çubukları */
+.items-list::-webkit-scrollbar, .modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.items-list::-webkit-scrollbar-track, .modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.items-list::-webkit-scrollbar-thumb, .modal-content::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 4px;
+}
+
+.items-list::-webkit-scrollbar-thumb:hover, .modal-content::-webkit-scrollbar-thumb:hover {
+    background: #ccc;
+}
+
+/* Mobil görünüm için düzenlemeler */
+@media (max-width: 992px) {
+    .edit-personnel-modal {
+        width: 95%;
+    }
+
+    .permission-transfer-modal {
+        width: 95%;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .transfer-container {
+        flex-direction: column;
+        height: auto;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .transfer-controls {
+        flex-direction: row;
+        padding: 0.5rem 0;
+        justify-content: center;
+    }
+
+    .transfer-panel {
+        height: 200px;
+    }
+
+    .modal-content {
+        padding: 1rem;
+    }
+
+    .modal-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .modal-footer {
+        padding: 0.75rem 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .edit-personnel-modal, .permission-transfer-modal {
+        width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .modal-overlay {
+        padding: 0;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+
+    .cancel-button, .save-button,
+    .modal-footer .cancel-button,
+    .modal-footer .save-button {
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem;
+    }
+}
+
+/* Özel durum stilleri */
+/* Devre dışı durumundaki form elemanları */
+.form-group input:disabled,
+.form-group select:disabled {
+    background-color: #f9f9f9;
+    color: #999;
+    cursor: not-allowed;
+}
+
+/* Hata durumundaki form elemanları */
+.form-group.has-error input,
+.form-group.has-error select {
+    border-color: #e57373;
+}
+
+.form-group.has-error .error-text {
+    color: #d32f2f;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+/* Başarı durumundaki form elemanları */
+.form-group.is-valid input,
+.form-group.is-valid select {
+    border-color: #81c784;
+}
+
+/* Hover efektleri */
+.permission-item {
+    transition: all 0.2s;
+}
+
+.permission-item button {
+    opacity: 0;
+    transition: opacity 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #f44336;
+    padding: 0;
+    margin-left: 0.25rem;
+    display: flex;
+    align-items: center;
+}
+
+.permission-item:hover button {
+    opacity: 1;
+}
+
+/* Yükleme göstergesi */
+.loading-indicator {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Yardım metni */
+.form-group .help-text {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 0.25rem;
+}
+
+/* Placeholder stilleri */
+.form-group input::placeholder {
+    color: #aaa;
+    opacity: 1;
+}
+/* Profil resmi ve fotoğraf yükleme kontrolleri için yeni stiller */
+.photo-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+    position: relative;
+    width: 150px;
+}
+
+.photo-preview {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #e0e0e0;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.photo-placeholder {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.photo-upload-button {
+    padding: 6px 12px;
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.photo-input {
+    display: none;
+}
+
+.photo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.photo-overlay svg {
+    color: white;
+    font-size: 32px;
+}
+
+.photo-preview:hover .photo-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+}
+
+.photo-preview:hover img {
+    filter: blur(3px);
+}
+
+.photo-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.remove-photo-button {
+    padding: 6px 12px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    border: none;
+}
+
+.remove-photo-button:hover {
+    background-color: #d32f2f;
+}
+
+.card-input-container {
+    position: relative;
+}
+
+.checking-card {
+    font-size: 12px;
+    color: #666;
+    margin-left: 5px;
+}
+
+.card-error {
+    color: #d32f2f;
+    font-size: 12px;
+    margin-top: 5px;
+}
+.photo-card-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.photo-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+    position: relative;
+    width: 150px;
+}
+
+.photo-preview {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #e0e0e0;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.photo-preview:hover .photo-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+}
+
+.photo-preview:hover img {
+    filter: blur(3px);
+}
+
+.remove-photo-button-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    transition: all 0.2s ease;
+}
+
+.remove-photo-button-icon svg {
+    color: #f44336;
+}
+
+.remove-photo-button-icon:hover {
+    background-color: #f44336;
+    transform: scale(1.1);
+}
+
+.remove-photo-button-icon:hover svg {
+    color: white;
+}
+
+.photo-upload-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 16px;
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.photo-upload-button:hover {
+    background-color: #357abf;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

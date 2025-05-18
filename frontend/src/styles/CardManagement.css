@@ -1,0 +1,635 @@
+/* CardManagement.css */
+/* Personel Yönetimi CSS ile uyumlu, bazı kart-spesifik eklemeler içerir */
+
+.card-tools {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+
+.search-filter {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%; /* Tam genişliğe yayılsın */
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    border-radius: 20px; /* Daha yuvarlak */
+    padding: 8px 12px;
+    flex: 1;
+    max-width: 400px;
+    border: 1px solid #ddd;
+    transition: all 0.2s ease;
+}
+
+.search-box:focus-within {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    margin-left: 8px;
+    flex: 1;
+    font-size: 14px;
+    outline: none;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-button {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 20px; /* Daha yuvarlak kenarlar */
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-button:hover {
+    background-color: #e9e9e9;
+    transform: translateY(-1px); /* Hafif yukarı kaldırma efekti */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Hafif gölge */
+}
+
+.filter-button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    box-shadow: 0 2px 4px rgba(0,123,255,0.3); /* Aktif buton için daha belirgin gölge */
+}
+
+.filter-dropdown {
+    position: relative;
+}
+
+.filter-dropdown-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 20px; /* Aynı şekilde yuvarlak */
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-dropdown-button:hover {
+    background-color: #e9e9e9;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.add-button:hover {
+    background-color: #27ae60;
+}
+
+/* Kart Tablosu */
+.card-table-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.card-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.card-table th {
+    background-color: #f8f9fa;
+    color: #546e7a;
+    font-weight: 600;
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 2px solid #e1e8ed;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.card-table th:hover {
+    background-color: #edf2f7;
+}
+
+.card-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e1e8ed;
+    vertical-align: middle;
+}
+
+.card-table tr:last-child td {
+    border-bottom: none;
+}
+
+.card-table tr:hover {
+    background-color: #f9fafb;
+}
+
+.sort-icon {
+    display: inline-block;
+    margin-left: 0.3rem;
+    color: #3498db;
+    font-weight: bold;
+}
+
+.action-cell {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-start;
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.action-button.edit {
+    background-color: #3498db;
+    color: white;
+}
+
+.action-button.edit:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.action-button.delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.action-button.delete:hover:not(:disabled) {
+    background-color: #c0392b;
+}
+
+.action-button.blacklist {
+    color: #f39c12;
+    border-color: #f39c12;
+}
+
+.action-button.blacklist:hover:not(:disabled) {
+    background-color: #f39c12;
+    color: white;
+}
+
+.action-button.remove-blacklist {
+    color: #27ae60;
+    border-color: #27ae60;
+}
+
+.action-button.remove-blacklist:hover {
+    background-color: #27ae60;
+    color: white;
+}
+
+/* Durum İşaretleri */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.status-badge.active {
+    background-color: #e3f9ee;
+    color: #2ecc71;
+}
+
+.status-badge.inactive {
+    background-color: #ffeaea;
+    color: #e74c3c;
+}
+
+.blacklist-status {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.blacklist-status.blacklisted {
+    color: #f39c12;
+    background-color: #fff8e1;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+}
+
+/* Boş Veri Durumu */
+.no-data {
+    text-align: center;
+    padding: 2rem !important;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+/* Sayfalama */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+}
+
+.items-per-page {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.items-per-page select {
+    padding: 0.4rem;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.pagination-info {
+    color: #7f8c8d;
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pagination-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pagination-button:hover:not(:disabled) {
+    background-color: #f5f8fa;
+}
+
+.pagination-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-page {
+    font-weight: 600;
+    color: #3498db;
+}
+
+/* Onay Diyalogları */
+.confirm-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.confirm-modal {
+    width: 90%;
+    max-width: 450px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.confirm-modal-content {
+    padding: 1.5rem;
+}
+
+.confirm-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.confirm-modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #2c3e50;
+}
+
+.confirm-modal-body {
+    margin-bottom: 1.5rem;
+}
+
+.confirm-modal-body p {
+    margin: 0.5rem 0;
+    color: #34495e;
+}
+
+.warning-text {
+    color: #e74c3c !important;
+    font-weight: 500;
+}
+
+.confirm-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.cancel-button {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    background-color: white;
+    color: #7f8c8d;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancel-button:hover {
+    background-color: #f5f8fa;
+}
+
+.confirm-button {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.confirm-button.delete {
+    background-color: #e74c3c;
+}
+
+.confirm-button.delete:hover {
+    background-color: #c0392b;
+}
+
+.confirm-button.blacklist {
+    background-color: #f39c12;
+}
+
+.confirm-button.blacklist:hover {
+    background-color: #d35400;
+}
+
+.confirm-button.remove-blacklist {
+    background-color: #27ae60;
+}
+
+.confirm-button.remove-blacklist:hover {
+    background-color: #219653;
+}
+
+/* Yükleme ve Hata Durumları */
+.card-loading, .card-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    text-align: center;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid #3498db;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.card-error {
+    color: #e74c3c;
+}
+
+.retry-button {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.retry-button:hover {
+    background-color: #2980b9;
+}
+
+/* Excel Butonu Stili */
+.excel-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #1d6f42;  /* Excel yeşili */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.excel-button:hover {
+    background-color: #185a37;
+}
+
+/* Duyarlı Tasarım */
+@media (max-width: 768px) {
+    .card-tools {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-filter {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-buttons {
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+    }
+
+    .pagination-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+/* Kart İkon Hücresi */
+.card-icon-cell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.card-icon {
+    color: #3498db;
+    flex-shrink: 0;
+}
+
+/* Kara liste bilgisi için yeni stil */
+.blacklist-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.blacklist-status.blacklisted {
+    display: inline-block;
+    color: #f39c12;
+    background-color: #fff8e1;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    margin-bottom: 0.3rem;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.blacklist-reason {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    margin-top: 0.2rem;
+}
+
+/* Kart Düzenleme Modal Stili */
+.card-edit-modal {
+    max-width: 500px;
+}
+
+.card-edit-modal .confirm-modal-header {
+    position: relative;
+}
+
+.card-edit-modal .close-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    color: #7f8c8d;
+}
+
+.card-edit-modal .close-button:hover {
+    color: #e74c3c;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group select,
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-group.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: flex-start;
+}
+
+.form-group.checkbox-group input[type="checkbox"] {
+    margin: 0;
+    width: auto;
+}
+
+.form-group.checkbox-group label {
+    margin-bottom: 0;
+}
+
+.confirm-button.save {
+    background-color: #3498db;
+}
+
+.confirm-button.save:hover {
+    background-color: #2980b9;
+}

@@ -1,0 +1,224 @@
+/* Export to Excel Button */
+.export-excel-container {
+    margin-left: auto;
+}
+
+.export-excel-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.export-excel-button:hover {
+    background-color: #2ecc71;
+}
+
+.export-excel-button svg {
+    margin-right: 8px;
+}
+
+/* Modal Overlay */
+.export-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+
+/* Modal */
+.export-modal {
+    background-color: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Modal Header */
+.export-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.export-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.export-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #777;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.export-modal-close:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+/* Modal Body */
+.export-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(80vh - 130px);
+}
+
+/* Select All Buttons */
+.export-select-all {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.export-select-button,
+.export-deselect-button {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    transition: all 0.2s;
+}
+
+.export-select-button {
+    color: #2980b9;
+}
+
+.export-select-button:hover {
+    background-color: #e3f2fd;
+    border-color: #2980b9;
+}
+
+.export-deselect-button {
+    color: #7f8c8d;
+}
+
+.export-deselect-button:hover {
+    background-color: #f1f1f1;
+    border-color: #95a5a6;
+}
+
+/* Columns List */
+.export-columns-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.export-column-item {
+    margin-bottom: 8px;
+}
+
+/* Checkbox Styling */
+.export-checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+    color: #333;
+}
+
+.export-checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.export-checkbox-custom {
+    position: relative;
+    height: 18px;
+    width: 18px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.export-checkbox:checked ~ .export-checkbox-custom {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+.export-checkbox-custom svg {
+    color: white;
+}
+
+/* Modal Footer */
+.export-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.export-cancel-button,
+.export-confirm-button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.export-cancel-button {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.export-cancel-button:hover {
+    background-color: #e9ecef;
+}
+
+.export-confirm-button {
+    background-color: #27ae60;
+    border: none;
+    color: white;
+}
+
+.export-confirm-button:hover {
+    background-color: #2ecc71;
+}

@@ -1,0 +1,122 @@
+/* Filtre Butonları ve Excel için Standart Stiller */
+.search-filter-wrapper {
+    width: 100%;
+    padding: 0.5rem 0;
+}
+
+.search-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Arama, Filtreler ve Excel Düzeni */
+.search-tools {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.search-box {
+    position: relative;
+    min-width: 300px;
+    flex: 1;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.6rem;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    height: 38px; /* Standart buton yüksekliği */
+}
+
+.search-box svg {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    height: 38px; /* Standart buton yüksekliği */
+    background-color: #f8f9fa;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.filter-button {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    font-size: 0.875rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    height: 38px; /* Standart buton yüksekliği */
+    display: inline-flex;
+    align-items: center;
+}
+
+.filter-button:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.filter-button.active {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+    color: #3b82f6;
+    font-weight: 500;
+}
+
+/* Excel ve diğer aksiyonlar için sağ taraf */
+.export-button {
+    margin-left: auto; /* Sağa yasla */
+}
+
+/* Responsive Düzenlemeler */
+@media (max-width: 992px) {
+    .search-filter {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-tools {
+        width: 100%;
+    }
+    
+    .export-button {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-tools {
+        flex-wrap: wrap;
+    }
+    
+    .search-box {
+        width: 100%;
+        min-width: 100%;
+        margin-bottom: 0.5rem;
+    }
+} 
